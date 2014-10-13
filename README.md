@@ -20,4 +20,5 @@ We've set up a makefile that can run the necessary setup commands. You'll need t
 
 - 'make front' or 'make' gets the front end working
 - 'make back' gets the back end working
+- 'make deps' installs some necessary dpendencies
 - CTRL-C should stop the processes.

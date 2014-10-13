@@ -6,4 +6,9 @@ front:
 
 back:
 	cd backend && python backend.py
+	
+deps:
+	sudo apt-get install pip
+	sudo apt-get install python-wxgtk2.8
+	sudo pip install flask
 
