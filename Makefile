@@ -1,7 +1,7 @@
 all: front
 
 front:
-	sleep 3 && google-chrome "localhost:6789" &
+	sleep 3 && firefox "localhost:6789/lilypad.html" &
 	cd frontend && python -m SimpleHTTPServer 6789
 
 back:
