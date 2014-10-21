@@ -1,5 +1,6 @@
 import wx
 import json
+import os
 from os.path import expanduser
 from flask import Flask
 from flask import request
@@ -18,14 +19,27 @@ def set_json():
 	return ""
 
 @flaskapp.route("/launch")
+@cross_origin(headers=['Content-Type'])
 def launch():
-	return ""
+    script = request.args.get('script')
+    
+    sh_file = open('launch.sh', 'w')
+    sh_file.write(script)
+    sh_file.close()
+
+    res = os.system('sh launch.sh &')
+    success = 'true'
+    if res != 0:
+        success = 'false'
+
+    return '{"response": "Launch", "success": ' + success + '}'
 
 @flaskapp.route("/pick")
 def get_path():
-    app = wx.App(None)
+    wxapp = wx.App(None)
     style = wx.FD_OPEN | wx.FD_FILE_MUST_EXIST | wx.MULTIPLE
     dialog = wx.FileDialog(None, 'Choose some files...', defaultDir=expanduser("~"), wildcard='*', style=style)
+    dialog.ToggleWindowStyle(wx.STAY_ON_TOP)
     paths = []
     if dialog.ShowModal() == wx.ID_OK:
         paths = dialog.GetPaths()

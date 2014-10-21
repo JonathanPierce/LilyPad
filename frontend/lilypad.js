@@ -4,7 +4,18 @@ var req_url = "http://localhost:2014/";
 // Bootstrap the application
 window.onload = function() {
 	// Add events listeners
-	$("#filesButton").click(pick);
+	$("#filesButton").click(function() {
+		pick(function(result) {
+			var paths = result.paths;
+			document.getElementById('filesTextArea').value = paths.join('\n');
+		});
+	});
+
+	$("#shellButton").click(function() {
+		launch(function(result) {
+			console.log(result);
+		});
+	});
 
 	console.log("Lilypad is ready!");
 };
@@ -15,10 +26,10 @@ var log = function(input) {
 };
 
 var pick = function(callback) {
-	var derp = function(response) {
-		console.log('response received!');
-		console.log(response);
-	};
-
-	$.getJSON(req_url + 'pick').done(derp);
+	$.getJSON(req_url + 'pick').done(callback);
 };
+
+var launch = function(callback) {
+	var text = document.getElementById("shellTextArea").value;
+	$.getJSON(req_url + 'launch', {script: text}).done(callback);
+}
