@@ -1,8 +1,25 @@
 import wx
+import json
 from os.path import expanduser
 from flask import Flask
+from flask import request
+from flask.ext.cors import CORS, cross_origin
 
 flaskapp = Flask(__name__)
+flaskapp.config['CORS_HEADERS'] = 'Content-Type'
+cors = CORS(flaskapp)
+
+@flaskapp.route("/getjson")
+def get_json():
+	return ""
+
+@flaskapp.route("/setjson")
+def set_json():
+	return ""
+
+@flaskapp.route("/launch")
+def launch():
+	return ""
 
 @flaskapp.route("/pick")
 def get_path():
@@ -13,7 +30,9 @@ def get_path():
     if dialog.ShowModal() == wx.ID_OK:
         paths = dialog.GetPaths()
     dialog.Destroy()
-    return paths[0]
+
+    return '{"response": "Pick", "sucess": true, "paths": ["' + '","'.join(paths) +'"]}'
+
     
 if __name__ == "__main__":
 	flaskapp.run(port=2014)
