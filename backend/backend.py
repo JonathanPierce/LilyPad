@@ -12,11 +12,24 @@ cors = CORS(flaskapp)
 
 @flaskapp.route("/getjson")
 def get_json():
-	return ""
+    to_open = request.args.get('file')
+
+    json_file = open(to_open, 'r')
+    data = json_file.read()
+    json_file.close()
+
+    return '{"response": "GetJSON", "JSON": ' + data + '}'
 
 @flaskapp.route("/setjson")
 def set_json():
-	return ""
+    to_open = request.args.get('file')
+    data = request.args.get('data')
+
+    json_file = open(to_open, 'w')
+    data = json_file.write(data)
+    json_file.close()
+
+    return '{"response": "SetJSON", "success": true}'
 
 @flaskapp.route("/launch")
 @cross_origin(headers=['Content-Type'])
