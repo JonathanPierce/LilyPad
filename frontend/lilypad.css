@@ -1,8 +1,17 @@
+@font-face {
+	font-family: 'lilyicons';
+	src: url("./glyphs.woff") format("woff");
+}
+
 .noselect {
 	-webkit-user-select: none;
 	-moz-user-select: none;
 	user-select: none;
 	cursor: default;
+}
+
+html {
+	overflow: hidden;
 }
 
 body {
@@ -132,7 +141,6 @@ body {
 	position: relative;
 	transform-origin: 50% 50%;
 	transition: 0.1s ease-in-out all;
-	cursor: pointer;
 }
 
 	.padbox .padboxname {
@@ -148,30 +156,34 @@ body {
 	}
 
 	.padbox:hover .padboxname {
-		font-size: 18pt;
+		font-size: 14pt;
 		left: 12px;
-		bottom: 8px;
+		bottom: 6px;
 	}
 
 	.padbox .padboxplaybutton, .padbox .padboxeditbutton {
 		color: white;
-		font-size: 72pt;
+		font-size: 55pt;
 		position: absolute;
 		text-shadow: 0px 0px 4px #555555;
 		transform-origin: 50% 50%;
 		transition: 0.1s ease-in-out all;
 		opacity: 0;
 		visibility: hidden;
+		cursor: pointer;
+		z-index: 6;
+		height: 120px;
+		font-family: 'lilyicons';
 	}
 
 	.padbox .padboxplaybutton {
 		top: 24px;
-		right: 32px;
+		right: 36px;
 	}
 
 	.padbox .padboxeditbutton {
 		top: 24px;
-		left: 32px;
+		left: 36px;
 	}
 
 	.padbox:hover .padboxplaybutton, .padbox:hover .padboxeditbutton {
@@ -182,6 +194,24 @@ body {
 	.padbox .padboxplaybutton:hover, .padbox .padboxeditbutton:hover {
 		transform: scale(1.25);
 		text-shadow: 0px 0px 6px #555555;
+	}
+
+	.padbox .padboxlabels {
+		transition: 0.1s ease-in-out all;
+		opacity: 0;
+		visibility: hidden;
+		font-size: 9pt;
+		color: white;
+		position: absolute;
+		left: 42px;
+		top: 120px;
+		width: 212px;
+		font-weight: bold;
+	}
+
+	.padbox:hover .padboxlabels {
+		visibility: visible;
+		opacity: 1;
 	}
 
 .hidden {

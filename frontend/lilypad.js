@@ -116,13 +116,17 @@ var renderLaunchPage = function() {
 		var playbutton = document.createElement("DIV");
 		playbutton.setAttribute("class", "padboxplaybutton");
 		playbutton.setAttribute("title", "Launch Pad");
-		playbutton.innerHTML = ">";
+		playbutton.innerHTML = "";
 		padbox.appendChild(playbutton);
 		var editbutton = document.createElement("DIV");
 		editbutton.setAttribute("class", "padboxeditbutton");
 		editbutton.setAttribute("title", "Edit Pad");
-		editbutton.innerHTML = "E";
+		editbutton.innerHTML = "";
 		padbox.appendChild(editbutton);
+		var buttonlabels = document.createElement("DIV");
+		buttonlabels.setAttribute("class", "padboxlabels");
+		buttonlabels.innerHTML = "<div style='float:left;'>Edit Pad</div><div style='float:right;''>Launch Pad</div>";
+		padbox.appendChild(buttonlabels);
 
 		// Add it to the page
 		screen.appendChild(padbox);
