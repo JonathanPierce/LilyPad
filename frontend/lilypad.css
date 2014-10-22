@@ -1,0 +1,189 @@
+.noselect {
+	-webkit-user-select: none;
+	-moz-user-select: none;
+	user-select: none;
+	cursor: default;
+}
+
+body {
+	background-color: #FAFFFA;
+	font-family: 'courier';
+}
+
+.lilyheader {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 70px;
+	background-color: #33CC33;
+	border-bottom: 1px solid #006600;
+	box-shadow: 0px 3px 5px -2px #555555;
+	z-index: 10;
+}
+
+.lilyheader h1 {
+	color: white;
+	font-size: 42pt;
+	margin: 0px;
+	margin-left: 24px;
+	text-shadow: 0px 0px 6px #006600;
+	float: left;
+}
+
+	.lilyheader .lilyheaderbutton {
+		display: inline-block;
+		width: 48px;
+		height: 48px;
+		border-radius: 24px;
+		font-size: 24pt;
+		color: white;
+		background-color: #006600;
+		text-align: center;
+		line-height: 48px;
+		transform-origin: 50% 50%;
+		border: 1px solid #003300;
+		box-shadow: 0px 0px 6px 0px #006600;
+		transition: 0.05s ease-in-out all;
+		cursor: pointer;
+	}
+
+	.lilyheader .lilyheaderbutton:hover {
+		background-color: #003300;
+		box-shadow: 0px 0px 8px 4px #006600;
+	}
+
+	.lilyheader .lilyheaderbutton:active {
+		transform: scale(0.95);
+		box-shadow: 0px 0px 4px 0px #006600;
+	}
+
+	#headerHelpButton {
+		float: right;
+		margin-right: 24px;
+		margin-top: 8px;
+	}
+
+.lilymain {
+	position: absolute;
+	left: 0px;
+	top: 70px;
+	height: calc(100% - 120px);
+	width: 100%;
+	overflow: auto;
+}
+
+.mainsection {
+	padding-left: 12px;
+	padding-top: 12px;
+	padding-right: 12px;
+	padding-bottom: 24px;
+}
+
+.lilyfooter {
+	position: absolute;
+	left: 0px;
+	bottom: 0px;
+	height: 50px;
+	width: 100%;
+	background-color: #33CC33;
+	border-top: 1px solid #006600;
+	box-shadow: 0px -3px 5px -2px #555555;
+	z-index: 10;
+}
+
+	.lilyfooter .lilyfooterbutton {
+		display: inline-block;
+		width: 150px;
+		height: 40px;
+		border-radius: 4px;
+		font-size: 18pt;
+		color: white;
+		background-color: #006600;
+		text-align: center;
+		line-height: 42px;
+		transform-origin: 50% 50%;
+		border: 1px solid #003300;
+		box-shadow: 0px 0px 4px 0px #006600;
+		transition: 0.05s ease-in-out all;
+		margin-top: 4px;
+		margin-right: 4px;
+		margin-left: 4px;
+		cursor: pointer;
+	}
+
+		.lilyfooter .lilyfooterbutton:hover {
+			background-color: #003300;
+			box-shadow: 0px 0px 6px 2px #006600;
+		}
+
+		.lilyfooter .lilyfooterbutton:active {
+			transform: scale(0.95);
+			box-shadow: 0px 0px 2px 0px #006600;
+		}
+
+.padbox {
+	display: inline-block;
+	width: 270px;
+	height: 160px;
+	margin: 12px;
+	padding: 12px;
+	box-shadow: 0px 0px 5px 0px #555555;
+	position: relative;
+	transform-origin: 50% 50%;
+	transition: 0.1s ease-in-out all;
+	cursor: pointer;
+}
+
+	.padbox .padboxname {
+		color: white;
+		font-size: 28pt;
+		position: absolute;
+		left: 18px;
+		bottom: 12px;
+		width: 80%;
+		text-shadow: 0px 0px 2px #555555;
+		transform-origin: 0% 100%;
+		transition: 0.1s ease-in-out all;
+	}
+
+	.padbox:hover .padboxname {
+		font-size: 18pt;
+		left: 12px;
+		bottom: 8px;
+	}
+
+	.padbox .padboxplaybutton, .padbox .padboxeditbutton {
+		color: white;
+		font-size: 72pt;
+		position: absolute;
+		text-shadow: 0px 0px 4px #555555;
+		transform-origin: 50% 50%;
+		transition: 0.1s ease-in-out all;
+		opacity: 0;
+		visibility: hidden;
+	}
+
+	.padbox .padboxplaybutton {
+		top: 24px;
+		right: 32px;
+	}
+
+	.padbox .padboxeditbutton {
+		top: 24px;
+		left: 32px;
+	}
+
+	.padbox:hover .padboxplaybutton, .padbox:hover .padboxeditbutton {
+		opacity: 1;
+		visibility: visible;
+	}
+
+	.padbox .padboxplaybutton:hover, .padbox .padboxeditbutton:hover {
+		transform: scale(1.25);
+		text-shadow: 0px 0px 6px #555555;
+	}
+
+.hidden {
+	display: none !IMPORTANT;
+}

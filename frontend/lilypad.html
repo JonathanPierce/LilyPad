@@ -5,20 +5,44 @@
 <meta charset="UTF-8">
 <script src='http://ajax.aspnetcdn.com/ajax/jQuery/jquery-2.1.1.min.js' ></script>
 <script src='lilypad.js' ></script>
+<link rel="stylesheet" type="text/css" href="lilypad.css" />
 </head>
 <body>
+
+<div class="lilyheader noselect">
 <h1>Lilypad</h1>
-<h3>Get/Set JSON</h3>
-<input type='text' id='JSONFileName'></input><br/>
-<textarea rows='5' cols='200' id='JSONTextArea'></textarea><br/>
-<button id="getJSONButton">GetJSON</button><button id="setJSONButton">SetJSON</button>
+<span class='lilyheaderbutton' id="headerHelpButton">?</span>
+</div>
 
-<h3>Run Shell Script</h3>
-<textarea rows='5' cols='200' id='shellTextArea'></textarea><br/>
-<button id='shellButton'>Run Script</button>
+<div class="lilymain">
+	<div class='mainsection' id="testingPage">
+			<h3>Get/Set JSON</h3>
+			<input type='text' id='JSONFileName'></input><br/>
+			<textarea rows='5' cols='80' id='JSONTextArea'></textarea><br/>
+			<button id="getJSONButton">GetJSON</button><button id="setJSONButton">SetJSON</button>
 
-<h3>Get Files</h3>
-<textarea rows='5' cols='200' id='filesTextArea'></textarea><br/>
-<button id='filesButton'>Pick Files</button>
+			<h3>Run Shell Script</h3>
+			<textarea rows='5' cols='80' id='shellTextArea'></textarea><br/>
+			<button id='shellButton'>Run Script</button>
+
+			<h3>Get Files</h3>
+			<textarea rows='5' cols='80' id='filesTextArea'></textarea><br/>
+			<button id='filesButton'>Pick Files</button>
+	</div>
+
+	<div class='mainsection hidden' id="launchPage">
+		If you can read this, you do not need glasses.
+	</div>
+</div>
+
+<div class="lilyfooter noselect">
+	<div style="float:left;">
+		<spam class='lilyfooterbutton' id="testingButton">Switch Screen</spam>
+	</div>
+	<div style="float:right">
+		<spam class='lilyfooterbutton'>New Pad</spam>
+	</div>
+</div>
+
 </body>
 </html>

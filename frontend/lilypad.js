@@ -29,6 +29,14 @@ window.onload = function() {
 		})
 	});
 
+	$("#testingButton").click(function() {
+		if(document.querySelector('#testingPage').classList.contains('hidden')) {
+			switchMainScreen('testingPage');
+		} else {
+			switchMainScreen('launchPage');
+		}
+	});
+
 	console.log("Lilypad is ready!");
 };
 
@@ -55,4 +63,68 @@ var setJSON = function(callback) {
 	var file = document.getElementById("JSONFileName").value;
 	var data = document.getElementById("JSONTextArea").value;
 	$.getJSON(req_url + 'setjson', {file: file, data: data}).done(callback);
+};
+
+var switchMainScreen = function(screen, args) {
+	// Hide all main pages
+	var mainsections = document.querySelectorAll('.mainsection');
+	mainsection = mainsections || []; // handle null case
+	for(var i = 0; i < mainsections.length; i++) {
+		if(!mainsections[i].classList.contains('hidden')) {
+			mainsections[i].classList.add('hidden');
+		}
+	}
+
+	// Show the one we want to show
+	var toshow = document.querySelector('#' + screen);
+	if(toshow) {
+		toshow.classList.remove('hidden');
+	}
+ 
+	// Initalize the edit page (if necessary)
+	if(screen === 'editPage') {
+		// do stuff
+	}
+
+	// Initalize the launch page (if necessary)
+	if(screen === 'launchPage') {
+		renderLaunchPage();
+	}
+};
+
+var dummyPads = [{name: "CS 233", color: "blue"},{name: "MATRIX", color: "red"},{name: "Free Time", color: "orange"}];
+var renderLaunchPage = function() {
+	var screen = document.querySelector("#launchPage");
+
+	// clear whatever is there now
+	screen.innerHTML = "";
+
+	// We'll use delagted click/hover handlers. Don't worry about individual event listeners.
+	for(var i = 0; i < dummyPads.length; i++) {
+		// Create the box
+		var padbox = document.createElement("DIV");
+		padbox.setAttribute("class", "padbox noselect");
+		padbox.style.backgroundColor = dummyPads[i].color;
+
+		// Give it a name
+		var padboxname = document.createElement("DIV");
+		padboxname.setAttribute("class", "padboxname");
+		padboxname.innerHTML = dummyPads[i].name;
+		padbox.appendChild(padboxname);
+
+		// Handle the play and edit buttons
+		var playbutton = document.createElement("DIV");
+		playbutton.setAttribute("class", "padboxplaybutton");
+		playbutton.setAttribute("title", "Launch Pad");
+		playbutton.innerHTML = ">";
+		padbox.appendChild(playbutton);
+		var editbutton = document.createElement("DIV");
+		editbutton.setAttribute("class", "padboxeditbutton");
+		editbutton.setAttribute("title", "Edit Pad");
+		editbutton.innerHTML = "E";
+		padbox.appendChild(editbutton);
+
+		// Add it to the page
+		screen.appendChild(padbox);
+	}
 };
