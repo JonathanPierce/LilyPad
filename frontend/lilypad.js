@@ -1,9 +1,10 @@
 // Globals
 var req_url = "http://localhost:2014/";
+var colors = ["red", "green", "blue", "orange", "purple"]; // SHOULD COME FROM CONFIG.JSON
 
 // Bootstrap the application
 window.onload = function() {
-	// Add eventt listeners
+	// Add event listeners
 	$("#filesButton").click(function() {
 		pick(function(result) {
 			var paths = result.paths;
@@ -30,12 +31,20 @@ window.onload = function() {
 	});
 
 	$("#testingButton").click(function() {
-		if(document.querySelector('#testingPage').classList.contains('hidden')) {
-			switchMainScreen('testingPage');
-		} else {
-			switchMainScreen('launchPage');
+		var currentList = ['testingPage', 'launchPage', 'createEditPage'];
+
+		var next = "testingPage";
+		for(var i = 0; i < currentList.length; i++) {
+			if(!document.querySelector('#' + currentList[i]).classList.contains('hidden')) {
+				next = currentList[(i + 1) % currentList.length];
+			}
 		}
+
+		switchMainScreen(next);
 	});
+
+	// Switch to the first page
+	switchMainScreen('createEditPage');
 
 	console.log("Lilypad is ready!");
 };
@@ -81,9 +90,14 @@ var switchMainScreen = function(screen, args) {
 		toshow.classList.remove('hidden');
 	}
  
+	// Initialize the testing page (if necessary)
+	if(screen === 'testingPage') {
+		document.querySelector("#subheader").innerHTML = "Testing";
+	}
+
 	// Initalize the edit page (if necessary)
-	if(screen === 'editPage') {
-		// do stuff
+	if(screen === 'createEditPage') {
+		renderCreateEditPage();
 	}
 
 	// Initalize the launch page (if necessary)
@@ -95,6 +109,9 @@ var switchMainScreen = function(screen, args) {
 var dummyPads = [{name: "CS 233", color: "blue"},{name: "MATRIX", color: "red"},{name: "Free Time", color: "orange"}];
 var renderLaunchPage = function() {
 	var screen = document.querySelector("#launchPage");
+
+	// Set the header subtitle
+	document.querySelector("#subheader").innerHTML = "Home";
 
 	// clear whatever is there now
 	screen.innerHTML = "";
@@ -131,4 +148,36 @@ var renderLaunchPage = function() {
 		// Add it to the page
 		screen.appendChild(padbox);
 	}
+};
+
+var renderCreateEditPage = function() {
+	var renderColorPicker = function(node) {
+		for(var i = 0; i < colors.length; i++) {
+			var colorBlob = document.createElement('DIV');
+			colorBlob.setAttribute('class', 'colorBlob');
+			colorBlob.style.backgroundColor = colors[i];
+			if(i == 0) {
+				colorBlob.classList.add('activeColorBlob');
+			}
+			node.appendChild(colorBlob);
+		}
+	};
+
+	// Update the header title
+	document.querySelector("#subheader").innerHTML = "Edit Pad";
+
+	var screen = document.querySelector('#createEditPage');
+	screen.innerHTML = "";
+
+	// Create the body header
+	var bodyheader = document.createElement("DIV");
+	bodyheader.setAttribute('class', 'editHeader');
+	bodyheader.innerHTML = '<input type="text" class="editHeaderName" placeholder="name your pad..." maxlength="40"></input><div class="colorPickerHost" title="choose a color..."></div>';
+	renderColorPicker(bodyheader.querySelector('.colorPickerHost'));
+	screen.appendChild(bodyheader);
+
+	// Create the body
+
+
+	// Create the (floating) footer
 };
