@@ -1,161 +1,161 @@
 {
-	"Programs": [
+	"programs": [
 		{
 			"display_name" : "Firefox",
-			"icon_path" : "icons/firefox",
+			"icon_path" : "icons/firefox.png",
 			"types" : ["url", "html", "png", "jpg", "gif", "jpeg", "bmp"],
 			"standalone" : false,
 			"system_name": "firefox"
 		},
 		{
-			"display_name" : "Chrome",
-			"icon_path" : "icons/chrome",
+			"display_name" : "Google Chrome",
+			"icon_path" : "icons/google_chrome.png",
 			"types" : ["url", "html", "png", "jpg", "gif", "jpeg", "bmp"],
 			"standalone" : false,
 			"system_name": "google-chrome"
 		},
 		{
 			"display_name" : "Gedit",
-			"icon_path" : "icons/gedit",
+			"icon_path" : "icons/gedit.png",
 			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
 			"standalone" : false,
 			"system_name": "gedit"
 		},
 		{
 			"display_name" : "GTKWave",
-			"icon_path" : "icons/gtkwave",
+			"icon_path" : "icons/gtkwave.png",
 			"types" : ["vcd"],
 			"standalone" : false,
 			"system_name": "gtkwave"
 		},
 		{
 			"display_name" : "Adobe Reader",
-			"icon_path" : "icons/adobe_reader",
+			"icon_path" : "icons/adobe_reader.png",
 			"types" : ["pdf"],
 			"standalone" : false,
 			"system_name": "acroread"
 		},
 		{
 			"display_name" : "Evince",
-			"icon_path" : "icons/evince",
+			"icon_path" : "icons/evince.png",
 			"types" : ["pdf"],
 			"standalone" : false,
 			"system_name": "evince"
 		},
 		{
 			"display_name" : "Okular",
-			"icon_path" : "icons/okular",
+			"icon_path" : "icons/okular.png",
 			"types" : ["pdf"],
 			"standalone" : false,
 			"system_name": "okular"
 		},
 		{
 			"display_name" : "LibreOffice Writer",
-			"icon_path" : "icons/libreoffice_writer",
+			"icon_path" : "icons/libreoffice_writer.png",
 			"types" : ["doc", "docx", "odt"],
 			"standalone" : false,
 			"system_name": "libreoffice --writer"
 		},
 		{
 			"display_name" : "LibreOffice Calc",
-			"icon_path" : "icons/libreoffice_calc",
+			"icon_path" : "icons/libreoffice_calc.png",
 			"types" : ["xls", "xlsx", "ods"],
 			"standalone" : false,
 			"system_name": "libreoffice --calc"
 		},
 		{
 			"display_name" : "LibreOffice Impress",
-			"icon_path" : "icons/libreoffice_impress",
+			"icon_path" : "icons/libreoffice_impress.png",
 			"types" : ["ppt", "pptx", "odp"],
 			"standalone" : false,
 			"system_name": "libreoffice --impress"
 		},
 		{
 			"display_name" : "Calculator",
-			"icon_path" : "icons/calculator",
+			"icon_path" : "icons/calculator.png",
 			"types" : [],
 			"standalone" : true,
 			"system_name": "gnome-calculator"
 		},
 		{
 			"display_name" : "Terminal",
-			"icon_path" : "icons/terminal",
+			"icon_path" : "icons/terminal.png",
 			"types" : [],
 			"standalone" : true,
 			"system_name": "gnome-terminal"
 		},
 		{
 			"display_name" : "Kile",
-			"icon_path" : "icons/kile",
+			"icon_path" : "icons/kile.png",
 			"types" : ["tex"],
 			"standalone" : false,
 			"system_name": "kile"
 		},
 		{
 			"display_name" : "TexWorks",
-			"icon_path" : "icons/texworks",
+			"icon_path" : "icons/texworks.png",
 			"types" : ["tex"],
 			"standalone" : false,
 			"system_name": "texworks"
 		},
 		{
 			"display_name" : "Sublime",
-			"icon_path" : "icons/sublime",
+			"icon_path" : "icons/sublime.png",
 			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
 			"standalone" : false,
 			"system_name": "subl"
 		},
 		{
 			"display_name" : "gVim",
-			"icon_path" : "icons/gvim",
+			"icon_path" : "icons/gvim.png",
 			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
 			"standalone" : false,
 			"system_name": "gvim"
 		},
 		{
 			"display_name" : "Emacs",
-			"icon_path" : "icons/emacs",
+			"icon_path" : "icons/emacs.png",
 			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
 			"standalone" : false,
 			"system_name": "emacs"
 		},
 		{
 			"display_name" : "Eclipse",
-			"icon_path" : "icons/eclipse",
+			"icon_path" : "icons/eclipse.png",
 			"types" : ["java", "py", "c", "cpp"],
 			"standalone" : false,
 			"system_name": "eclipse"
 		},
 		{
 			"display_name" : "Gimp",
-			"icon_path" : "icons/gimp",
+			"icon_path" : "icons/gimp.png",
 			"types" : ["xcf", "gif", "jpg", "png", "jpeg", "bmp"],
 			"standalone" : false,
 			"system_name": "gimp"
 		},
 		{
-			"display_name" : "Eye of Gnome",
-			"icon_path" : "icons/eye_of_gnome",
+			"display_name" : "Image Viewer",
+			"icon_path" : "icons/image_viewer.png",
 			"types" : ["gif", "jpg", "png", "jpeg", "bmp"],
 			"standalone" : false,
 			"system_name": "eog"
 		},
 		{
 			"display_name" : "Rhythmbox",
-			"icon_path" : "icons/rhythmbox",
+			"icon_path" : "icons/rhythmbox.png",
 			"types" : ["mp3", "wav", "aac", "wma"],
 			"standalone" : false,
 			"system_name": "rhythmbox"
 		},
 		{
 			"display_name" : "VLC",
-			"icon_path" : "icons/vlc",
+			"icon_path" : "icons/vlc.png",
 			"types" : ["mp3", "mp4", "wav", "real", "flv", "mov", "ogg"],
 			"standalone" : false,
 			"system_name": "vlc"
 		}
 	],
-	"Defaults":[
+	"defaults":[
 		{"type": "txt", "program" : "Gedit"},
 		{"type": "json", "program" : "Gedit"},
 		{"type": "py", "program" : "Gedit"},
@@ -167,11 +167,11 @@
 		{"type": "html", "program" : "Gedit"},
 		{"type": "pdf", "program" : "Evince"},
 		{"type": "tex", "program" : "Kile"},
-		{"type": "gif", "program" : "Eye of Gnome"},
-		{"type": "jpg", "program" : "Eye of Gnome"},
-		{"type": "png", "program" : "Eye of Gnome"},
-		{"type": "jpeg", "program" : "Eye of Gnome"},
-		{"type": "bmp", "program" : "Eye of Gnome"},
+		{"type": "gif", "program" : "Image Viewer"},
+		{"type": "jpg", "program" : "Image Viewer"},
+		{"type": "png", "program" : "Image Viewer"},
+		{"type": "jpeg", "program" : "Image Viewer"},
+		{"type": "bmp", "program" : "Image Viewer"},
 		{"type": "mp3", "program" : "VLC"},
 		{"type": "mp4", "program" : "VLC"},
 		{"type": "wav", "program" : "VLC"},
@@ -187,6 +187,8 @@
 		{"type": "ods", "program" : "LibreOffice Calc"},
 		{"type": "ppt", "program" : "LibreOffice Impress"},
 		{"type": "pptx", "program" : "LibreOffice Impress"},
-		{"type": "odp", "program" : "LibreOffice Impress"}
+		{"type": "odp", "program" : "LibreOffice Impress"},
+		{"type": "url", "program" : "Google Chrome"},
+		{"type": "vcd", "program" : "GTKWave"}
 	]
 }
