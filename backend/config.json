@@ -1,1 +1,192 @@
-{"test":"This is a test!"}
+{
+	"Programs": [
+		{
+			"display_name" : "Firefox",
+			"icon_path" : "icons/firefox",
+			"types" : ["url", "html", "png", "jpg", "gif", "jpeg", "bmp"],
+			"standalone" : false,
+			"system_name": "firefox"
+		},
+		{
+			"display_name" : "Chrome",
+			"icon_path" : "icons/chrome",
+			"types" : ["url", "html", "png", "jpg", "gif", "jpeg", "bmp"],
+			"standalone" : false,
+			"system_name": "google-chrome"
+		},
+		{
+			"display_name" : "Gedit",
+			"icon_path" : "icons/gedit",
+			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
+			"standalone" : false,
+			"system_name": "gedit"
+		},
+		{
+			"display_name" : "GTKWave",
+			"icon_path" : "icons/gtkwave",
+			"types" : ["vcd"],
+			"standalone" : false,
+			"system_name": "gtkwave"
+		},
+		{
+			"display_name" : "Adobe Reader",
+			"icon_path" : "icons/adobe_reader",
+			"types" : ["pdf"],
+			"standalone" : false,
+			"system_name": "acroread"
+		},
+		{
+			"display_name" : "Evince",
+			"icon_path" : "icons/evince",
+			"types" : ["pdf"],
+			"standalone" : false,
+			"system_name": "evince"
+		},
+		{
+			"display_name" : "Okular",
+			"icon_path" : "icons/okular",
+			"types" : ["pdf"],
+			"standalone" : false,
+			"system_name": "okular"
+		},
+		{
+			"display_name" : "LibreOffice Writer",
+			"icon_path" : "icons/libreoffice_writer",
+			"types" : ["doc", "docx", "odt"],
+			"standalone" : false,
+			"system_name": "libreoffice --writer"
+		},
+		{
+			"display_name" : "LibreOffice Calc",
+			"icon_path" : "icons/libreoffice_calc",
+			"types" : ["xls", "xlsx", "ods"],
+			"standalone" : false,
+			"system_name": "libreoffice --calc"
+		},
+		{
+			"display_name" : "LibreOffice Impress",
+			"icon_path" : "icons/libreoffice_impress",
+			"types" : ["ppt", "pptx", "odp"],
+			"standalone" : false,
+			"system_name": "libreoffice --impress"
+		},
+		{
+			"display_name" : "Calculator",
+			"icon_path" : "icons/calculator",
+			"types" : [],
+			"standalone" : true,
+			"system_name": "gnome-calculator"
+		},
+		{
+			"display_name" : "Terminal",
+			"icon_path" : "icons/terminal",
+			"types" : [],
+			"standalone" : true,
+			"system_name": "gnome-terminal"
+		},
+		{
+			"display_name" : "Kile",
+			"icon_path" : "icons/kile",
+			"types" : ["tex"],
+			"standalone" : false,
+			"system_name": "kile"
+		},
+		{
+			"display_name" : "TexWorks",
+			"icon_path" : "icons/texworks",
+			"types" : ["tex"],
+			"standalone" : false,
+			"system_name": "texworks"
+		},
+		{
+			"display_name" : "Sublime",
+			"icon_path" : "icons/sublime",
+			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
+			"standalone" : false,
+			"system_name": "subl"
+		},
+		{
+			"display_name" : "gVim",
+			"icon_path" : "icons/gvim",
+			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
+			"standalone" : false,
+			"system_name": "gvim"
+		},
+		{
+			"display_name" : "Emacs",
+			"icon_path" : "icons/emacs",
+			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
+			"standalone" : false,
+			"system_name": "emacs"
+		},
+		{
+			"display_name" : "Eclipse",
+			"icon_path" : "icons/eclipse",
+			"types" : ["java", "py", "c", "cpp"],
+			"standalone" : false,
+			"system_name": "eclipse"
+		},
+		{
+			"display_name" : "Gimp",
+			"icon_path" : "icons/gimp",
+			"types" : ["xcf", "gif", "jpg", "png", "jpeg", "bmp"],
+			"standalone" : false,
+			"system_name": "gimp"
+		},
+		{
+			"display_name" : "Eye of Gnome",
+			"icon_path" : "icons/eye_of_gnome",
+			"types" : ["gif", "jpg", "png", "jpeg", "bmp"],
+			"standalone" : false,
+			"system_name": "eog"
+		},
+		{
+			"display_name" : "Rhythmbox",
+			"icon_path" : "icons/rhythmbox",
+			"types" : ["mp3", "wav", "aac", "wma"],
+			"standalone" : false,
+			"system_name": "rhythmbox"
+		},
+		{
+			"display_name" : "VLC",
+			"icon_path" : "icons/vlc",
+			"types" : ["mp3", "mp4", "wav", "real", "flv", "mov", "ogg"],
+			"standalone" : false,
+			"system_name": "vlc"
+		}
+	],
+	"Defaults":[
+		{"type": "txt", "program" : "Gedit"},
+		{"type": "json", "program" : "Gedit"},
+		{"type": "py", "program" : "Gedit"},
+		{"type": "java", "program" : "Gedit"},
+		{"type": "c", "program" : "Gedit"},
+		{"type": "cpp", "program" : "Gedit"},
+		{"type": "js", "program" : "Gedit"},
+		{"type": "css", "program" : "Gedit"},
+		{"type": "html", "program" : "Gedit"},
+		{"type": "pdf", "program" : "Evince"},
+		{"type": "tex", "program" : "Kile"},
+		{"type": "gif", "program" : "Eye of Gnome"},
+		{"type": "jpg", "program" : "Eye of Gnome"},
+		{"type": "png", "program" : "Eye of Gnome"},
+		{"type": "jpeg", "program" : "Eye of Gnome"},
+		{"type": "bmp", "program" : "Eye of Gnome"},
+		{"type": "mp3", "program" : "VLC"},
+		{"type": "mp4", "program" : "VLC"},
+		{"type": "wav", "program" : "VLC"},
+		{"type": "real", "program" : "VLC"},
+		{"type": "flv", "program" : "VLC"},
+		{"type": "mov", "program" : "VLC"},
+		{"type": "ogg", "program" : "VLC"},
+		{"type": "doc", "program" : "LibreOffice Writer"},
+		{"type": "docx", "program" : "LibreOffice Writer"},
+		{"type": "odt", "program" : "LibreOffice Writer"},
+		{"type": "xls", "program" : "LibreOffice Calc"},
+		{"type": "xlsx", "program" : "LibreOffice Calc"},
+		{"type": "ods", "program" : "LibreOffice Calc"},
+		{"type": "ppt", "program" : "LibreOffice Impress"},
+		{"type": "pptx", "program" : "LibreOffice Impress"},
+		{"type": "odp", "program" : "LibreOffice Impress"}
+	]
+}
