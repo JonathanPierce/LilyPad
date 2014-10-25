@@ -192,10 +192,29 @@ var renderCreateEditPage = function() {
 	document.querySelector('.editHeaderName').focus();
 
 	// Create the body
+	var body = document.createElement("DIV");
+	body.setAttribute('class', 'editBody');
+	renderPadContents(body, pads[0]); // Do the real work. Hardcodes to pads[0] for now.
+	screen.appendChild(body);
 
 	// Create the (floating) footer
 	var footer = document.createElement("DIV");
 	footer.setAttribute('class', 'editFooter');
-	footer.innerHTML = '<div id="editURLWrapper"><input type="text" id="editURL" placeholder="enter a url..." /><div id="editURLGo" class="noselect" title="submit this URL"></div></div><div id="editFiles" class="noselect">choose some files</div><div id="editStandalone" class="noselect">...</div>';
+	footer.innerHTML = '<div id="editURLWrapper"><input type="text" id="editURL" placeholder="enter a url..." /><div id="editURLGo" class="noselect" title="submit this URL"></div></div><div id="editFiles" class="noselect">choose some files</div><div id="editStandalone" class="noselect">pick an app</div>';
 	screen.appendChild(footer);
 };
+
+var renderPadContents = function(node, arg) {
+	var insides = "";
+	for(var i = 0; i < 500; i++) {
+		insides += "lorem ipsum solor si dement. Hippy hoppity ho. Der de der de der. Rated PG-13.<br/>";
+	}
+	node.innerHTML = insides;
+};
+
+/* 
+ToDo:
+- Overlay control (for picking programs, help page, etc...)
+- Bottom bar passive info (conside program list, tooltips, feedback...)
+- Chevron popup window
+*/

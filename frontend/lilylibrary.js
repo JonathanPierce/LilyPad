@@ -87,3 +87,9 @@ var switchToAlternative = function(pad, delta) {
 var getConsiseProgramList = function(pad) {
 
 };
+
+// getStandalonePrograms
+// Searches the config object, returns an array of all entries that are standalone programs
+var getStandalonePrograms = function() {
+
+};

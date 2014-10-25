@@ -153,6 +153,8 @@ body {
 	position: relative;
 	transform-origin: 50% 50%;
 	transition: 0.1s ease-in-out all;
+	border: 1px solid #003300;
+	border-radius: 4px;
 }
 
 	.padbox .padboxname {
@@ -233,8 +235,7 @@ body {
 
 .editHeader {
 	width: 100%;
-	padding: 8px;
-	padding-top: 16px;
+	padding: 16px;
 	border-bottom: 1px dotted #006600;
 	text-align: center;
 }
@@ -257,6 +258,11 @@ body {
 		padding-left: 12px;
 		font-size: 18pt;
 	}
+
+		.editHeader .editHeaderName:focus {
+			box-shadow: 0px 0px 8px 0px #555555;
+			border-color: #33CC33;
+		}
 
 	.editHeader .colorPickerHost {
 		width: auto;
@@ -305,20 +311,25 @@ body {
 .editFooter {
 	width: 70%;
 	height: 40px;
-	position: absolute;
-	bottom: 8px;
+	position: fixed;
+	bottom: 58px;
 	left: 15%;
 	background-color: #33CC33;
-	border: 1px solid #006600;
+	border: 1px solid #003300;
 	border-radius: 4px;
-	box-shadow: 0px 0px 5px -2px #555555;
+	box-shadow: 0px 0px 6px 0px #555555;
+	z-index: 10;
+	text-align: center;
 }
 
 	.editFooter #editURLWrapper {
 		display: inline-block;
 		width: 33%;
 		height: 32px;
-		margin: 3px;
+		margin-top: 3px;
+		margin-bottom: 3px;
+		margin-left: 1.5px;
+		margin-right: 1.5px;
 		position: relative;
 	}
 
@@ -357,8 +368,11 @@ body {
 
 	.editFooter #editFiles, .editFooter #editStandalone {
 		display: inline-block;
-		width: 32.5%;
-		margin: 3px;
+		width: 32%;
+		margin-left: 1.5px;
+		margin-right: 1.5px;
+		margin-top: 3px;
+		margin-bottom: 3px;
 		border-radius: 4px;
 		border: 1px solid #003300;
 		background-color: white;
@@ -383,6 +397,13 @@ body {
 		box-shadow: inset 0px 0px 6px 0px #101010;
 		transform: scalex(0.98) scaley(0.95);
 	}
+
+.editBody {
+	width: 100%;
+	margin-bottom: 58px;
+	text-align: center;
+	margin-top: 18px;
+}
 
 .hidden {
 	display: none !IMPORTANT;
