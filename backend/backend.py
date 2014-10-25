@@ -10,6 +10,12 @@ flaskapp = Flask(__name__)
 flaskapp.config['CORS_HEADERS'] = 'Content-Type'
 cors = CORS(flaskapp)
 
+# create pads.json if it does not already exist
+if os.path.exists('pads.json') == False:
+    pads = open('pads.json', 'w+')
+    pads.write('{"pads": []}')
+    pads.close()
+
 @flaskapp.route("/getjson")
 def get_json():
     to_open = request.args.get('file')

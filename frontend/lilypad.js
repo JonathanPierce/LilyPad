@@ -1,37 +1,38 @@
 // Globals
 var req_url = "http://localhost:2014/";
-var colors = ["red", "green", "blue", "orange", "purple"]; // SHOULD COME FROM CONFIG.JSON
+var config = {};
+var pads = {};
 
 // Bootstrap the application
 window.onload = function() {
 	// Add event listeners
-	$("#filesButton").click(function() {
-		pick(function(result) {
-			var paths = result.paths;
-			document.getElementById('filesTextArea').value = paths.join('\n');
-		});
-	});
+	// $("#filesButton").click(function() {
+	// 	pick(function(result) {
+	// 		var paths = result.paths;
+	// 		document.getElementById('filesTextArea').value = paths.join('\n');
+	// 	});
+	// });
 
-	$("#shellButton").click(function() {
-		launch(function(result) {
-			console.log(result);
-		});
-	});
+	// $("#shellButton").click(function() {
+	// 	launch(function(result) {
+	// 		console.log(result);
+	// 	});
+	// });
 
-	$("#getJSONButton").click(function() {
-		getJSON(function(result) {
-			document.getElementById("JSONTextArea").value = JSON.stringify(result.JSON);
-		})
-	});
+	// $("#getJSONButton").click(function() {
+	// 	getJSON(function(result) {
+	// 		document.getElementById("JSONTextArea").value = JSON.stringify(result.JSON);
+	// 	})
+	// });
 
-	$("#setJSONButton").click(function() {
-		setJSON(function(result) {
-			console.log(result);
-		})
-	});
+	// $("#setJSONButton").click(function() {
+	// 	setJSON(function(result) {
+	// 		console.log(result);
+	// 	})
+	// });
 
 	$("#testingButton").click(function() {
-		var currentList = ['testingPage', 'launchPage', 'createEditPage'];
+		var currentList = ['launchPage', 'createEditPage'];
 
 		var next = "testingPage";
 		for(var i = 0; i < currentList.length; i++) {
@@ -43,10 +44,21 @@ window.onload = function() {
 		switchMainScreen(next);
 	});
 
-	// Switch to the first page
-	switchMainScreen('createEditPage');
+	// Get the configuration
+	getJSON("config.json", function(result) {
+		config = result;
 
-	console.log("Lilypad is ready!");
+		// Now get the pads
+		getJSON("pads.json", function(pad_result) {
+			pads = pad_result.pads;
+
+			// Switch to the first page
+			switchMainScreen('createEditPage');
+
+			// WE DID IT
+			console.log("Lilypad is ready!");
+		})
+	});
 };
 
 var log = function(input) {
@@ -63,9 +75,10 @@ var launch = function(callback) {
 	$.getJSON(req_url + 'launch', {script: text}).done(callback);
 };
 
-var getJSON = function(callback) {
-	var file = document.getElementById("JSONFileName").value;
-	$.getJSON(req_url + 'getjson', {file: file}).done(callback);
+var getJSON = function(file, callback) {
+	$.getJSON(req_url + 'getjson', {file: file}).done(function(result) {
+		callback(result.JSON);
+	});
 };
 
 var setJSON = function(callback) {
@@ -106,7 +119,6 @@ var switchMainScreen = function(screen, args) {
 	}
 };
 
-var dummyPads = [{name: "CS 233", color: "blue"},{name: "MATRIX", color: "red"},{name: "Free Time", color: "orange"}];
 var renderLaunchPage = function() {
 	var screen = document.querySelector("#launchPage");
 
@@ -117,16 +129,16 @@ var renderLaunchPage = function() {
 	screen.innerHTML = "";
 
 	// We'll use delagted click/hover handlers. Don't worry about individual event listeners.
-	for(var i = 0; i < dummyPads.length; i++) {
+	for(var i = 0; i < pads.length; i++) {
 		// Create the box
 		var padbox = document.createElement("DIV");
 		padbox.setAttribute("class", "padbox noselect");
-		padbox.style.backgroundColor = dummyPads[i].color;
+		padbox.style.backgroundColor = pads[i].color;
 
 		// Give it a name
 		var padboxname = document.createElement("DIV");
 		padboxname.setAttribute("class", "padboxname");
-		padboxname.innerHTML = dummyPads[i].name;
+		padboxname.innerHTML = pads[i].name;
 		padbox.appendChild(padboxname);
 
 		// Handle the play and edit buttons
@@ -148,14 +160,16 @@ var renderLaunchPage = function() {
 		// Add it to the page
 		screen.appendChild(padbox);
 	}
+
+	// ToDo: Handle the case where there are no pads!
 };
 
 var renderCreateEditPage = function() {
 	var renderColorPicker = function(node) {
-		for(var i = 0; i < colors.length; i++) {
+		for(var i = 0; i < config.colors.length; i++) {
 			var colorBlob = document.createElement('DIV');
 			colorBlob.setAttribute('class', 'colorBlob');
-			colorBlob.style.backgroundColor = colors[i];
+			colorBlob.style.backgroundColor = config.colors[i];
 			if(i == 0) {
 				colorBlob.classList.add('activeColorBlob');
 			}
@@ -175,9 +189,13 @@ var renderCreateEditPage = function() {
 	bodyheader.innerHTML = '<input type="text" class="editHeaderName" placeholder="name your pad..." maxlength="40"></input><div class="colorPickerHost" title="choose a color..."></div>';
 	renderColorPicker(bodyheader.querySelector('.colorPickerHost'));
 	screen.appendChild(bodyheader);
+	document.querySelector('.editHeaderName').focus();
 
 	// Create the body
 
-
 	// Create the (floating) footer
+	var footer = document.createElement("DIV");
+	footer.setAttribute('class', 'editFooter');
+	footer.innerHTML = '<div id="editURLWrapper"><input type="text" id="editURL" placeholder="enter a url..." /><div id="editURLGo" class="noselect" title="submit this URL"></div></div><div id="editFiles" class="noselect">choose some files</div><div id="editStandalone" class="noselect">...</div>';
+	screen.appendChild(footer);
 };

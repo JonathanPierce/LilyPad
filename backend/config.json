@@ -190,5 +190,6 @@
 		{"type": "odp", "program" : "LibreOffice Impress"},
 		{"type": "url", "program" : "Google Chrome"},
 		{"type": "vcd", "program" : "GTKWave"}
-	]
+	],
+	"colors" : ["red", "green", "blue", "orange", "purple"]
 }
