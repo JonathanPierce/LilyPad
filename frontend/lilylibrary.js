@@ -109,12 +109,12 @@ var getStandalonePrograms = function() {
 
 // Given a program name string, returns the corresponding entry from the config.
 // author: John
-var getProgramInfo(name, config){
+var getProgramInfo = function(name, config){
 
 };
 
-//returns true if the String is a valid URL.
+//returns true if input is a valid URL.
 // author: Andrew
-var validateURL(input){
+var validateURL = function(input){
 
 };
