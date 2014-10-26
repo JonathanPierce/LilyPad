@@ -19,7 +19,7 @@ var pad = {
 	}
 	]
 };
-// A pad delta. Eessentially a "contents" array liek the one from above.
+// A pad delta. Essentially a "contents" array like the one from above.
 var paddelta = [
 	{
 		program: "Firefox",
@@ -43,15 +43,19 @@ var paddelta = [
 // generateShellScript
 // input (Object): pad - A pad in the format of the sample one above
 // output (String): A shell script in the format defined by the google doc
+// author: Andrew 
 var generateShellScript = function(pad) {
 
 };
 
 // insertIntoPad
-// Inserts every element of the delta into the pad, keeping track of duplicates
+// Inserts every element of the delta into the pad, keeping track of paths 
+// that appear in both pad and delta, and are associated with the same program.
 // input (Object): pad - What we are inserting to. A pad like the one above.
-// input (Array): delta - Delta array, like the one above
-// output (Array): Array of duplicates found in the same format as the delta
+// input (Array): delta - Delta array (stuff we're adding), like the one above
+// output (Array): Array of paths found in both pad and delta that are 
+// associated with the same program.
+// author: Lorraine
 var insertIntoPad = function(pad, delta) {
 
 };
@@ -59,7 +63,8 @@ var insertIntoPad = function(pad, delta) {
 // getDefaultPrograms
 // Given an array of paths, create a delta object like the example one above.
 // Match each path to the appropriate default program from config.json.
-var getDefaultPrograms = function(paths) {
+// author: John
+var getDefaultPrograms = function(paths, config) {
 
 };
 
@@ -67,39 +72,49 @@ var getDefaultPrograms = function(paths) {
 // Depends on config.json!
 // This function should have a way to detect URLs
 // input (Array): A array of file/url paths
-// output: A list of programs (array of display-name strings) that supports every filetype in the list
-var getAlternativePrograms = function(paths) {
+// output: A list of programs (array of display-name strings) that supports 
+// every filetype in the list.
+// author: John
+var getAlternativePrograms = function(paths, config) {
 
 };
 
 // switchToAlternative
 // Switches the program associated with certain paths.
-// Given a pad as input and a delta, removes members of the delta from the current pad,
-// and then adds them again using insertIntoPad().
+// Given a pad as input and a delta , adds the program/file pairings specified 
+// in delta to pad. Like insertIntoPad, this should return the list of 
+// paths that appear in both pad and delta and are associated with the same
+// program.
+// // author: Lorraine
 var switchToAlternative = function(pad, delta) {
 
 };
 
-// getConsiseProgramList
-// Returns an array matching program display names to associated files counts
+// getConciseProgramList
+// Returns an array mapping program display names to the number of files
+// associated with said program.
 // input (Object): pad - A pad like the example one above
 // output (Object array): Array of {name: "program display name", count: int}
-var getConsiseProgramList = function(pad) {
+// author: Andrew 
+var getConciseProgramList = function(pad) {
 
 };
 
 // getStandalonePrograms
 // Searches the config object, returns an array of all entries that are standalone programs
+// author: Lorraine
 var getStandalonePrograms = function() {
 
 };
 
 // Given a program name string, returns the corresponding entry from the config.
+// author: John
 var getProgramInfo(name, config){
 
 };
 
 //returns true if the String is a valid URL.
+// author: Andrew
 var validateURL(input){
 
 };
