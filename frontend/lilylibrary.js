@@ -93,3 +93,13 @@ var getConsiseProgramList = function(pad) {
 var getStandalonePrograms = function() {
 
 };
+
+// Given a program name string, returns the corresponding entry from the config.
+var getProgramInfo(name, config){
+
+};
+
+//returns true if the String is a valid URL.
+var validateURL(input){
+
+};
