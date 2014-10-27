@@ -189,7 +189,11 @@ var renderCreateEditPage = function() {
 	bodyheader.innerHTML = '<input type="text" class="editHeaderName" placeholder="name your pad..." maxlength="40"></input><div class="colorPickerHost" title="choose a color..."></div>';
 	renderColorPicker(bodyheader.querySelector('.colorPickerHost'));
 	screen.appendChild(bodyheader);
-	document.querySelector('.editHeaderName').focus();
+
+	document.querySelector('.editHeaderName').focus(); // TODO: Only if the pad is new!
+	// Set the title
+	document.querySelector('.editHeaderName').value = ""; // TODO: Update to appropriate value
+	// TODO: Set the correct color!!!
 
 	// Create the body
 	var body = document.createElement("DIV");
@@ -205,11 +209,29 @@ var renderCreateEditPage = function() {
 };
 
 var renderPadContents = function(node, arg) {
-	var insides = "";
-	for(var i = 0; i < 500; i++) {
-		insides += "lorem ipsum solor si dement. Hippy hoppity ho. Der de der de der. Rated PG-13.<br/>";
+	var contents = arg.contents;
+	for(var i = 0; i < contents.length; i++) {
+		var entry = document.createElement("DIV");
+		entry.setAttribute('class', 'padEntry');
+
+		var entryHeader = document.createElement('DIV');
+		entryHeader.setAttribute('class', 'padEntryHeader');
+		entryHeader.classList.add('noselect');
+		entryHeader.innerHTML = '<div class="padEntryHeaderLeft"><img src="icons/google_chrome.png" class="padEntryLogo" /><div class="padEntryTitle">Chrome</div><div class="padEntryIcon padEntryTitleChevron noselect" title="choose a different program for these files"></div></div><div class="padEntryIcon padEntryRight noselect" title="remove this program and all its files"></div>';
+		entry.appendChild(entryHeader);
+
+		var entryBody = document.createElement('DIV');
+		entryBody.setAttribute('class', 'padEntryBody');
+		for(var j = 0; j < contents[i].files.length; j++) {
+			var file = document.createElement('DIV');
+			file.setAttribute('class', 'padEntryFile');
+			file.innerHTML = '<div class="padEntryFileName">' + contents[i].files[j] + '</div><div class="padEntryFileButtons"><div class="padEntryFileIcon padEntryFileChevron noselect" title="choose a different program for these files"></div><div class="padEntryFileIcon noselect" title="remove this file"></div></div>';
+			entryBody.appendChild(file);
+		}
+		entry.appendChild(entryBody);
+
+		node.appendChild(entry);
 	}
-	node.innerHTML = insides;
 };
 
 /* 

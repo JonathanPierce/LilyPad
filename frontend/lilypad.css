@@ -287,6 +287,7 @@ body {
 		transform: scale(0.8);
 		transition: 0.075s ease-in-out all;
 		box-shadow: 0px 0px 1px 0px #555555;
+		cursor: pointer;
 	}
 
 	.colorBlob:hover {
@@ -401,9 +402,139 @@ body {
 .editBody {
 	width: 100%;
 	margin-bottom: 58px;
-	text-align: center;
 	margin-top: 18px;
 }
+
+.padEntry {
+	width: 70%;
+	margin-left: 15.5%;
+	margin-bottom: 12px;
+	border: 1px solid rgba(0,0,0,0);
+	border-radius: 6px;
+	padding: 8px;
+	transform-origin: 50% 50%;
+	transition: 0.1s ease-in-out all;
+}
+
+	.padEntry:hover {
+		background-color: white;
+		border: 1px solid #006600;
+		box-shadow: 0px 0px 4px 0px #555555;
+	}
+
+	.padEntryHeaderLeft {
+		display: inline-block;
+	}
+
+	.padEntry .padEntryHeader {
+		border-bottom: 1px solid #006600;
+		position: relative;
+		margin-bottom: 12px;
+	}
+
+	.padEntry .padEntryIcon {
+		font-family: 'lilyicons';
+		font-size: 18pt;
+		color: #006600;
+		display: inline-block;
+		text-shadow: 0px 0px 3px #555555;
+		cursor: pointer;
+		transition: 0.07s ease-in-out all;
+		transform-origin: 50% 50%;
+		opacity: 0;
+		position: absolute;
+		bottom: 10px;
+	}
+
+	.padEntry:hover .padEntryIcon {
+		opacity: 1;
+	}
+
+		.padEntry .padEntryIcon:hover {
+			color: #003300;
+			text-shadow: 0px 0px 5px #555555;
+		}
+
+		.padEntry .padEntryIcon:active {
+			transform: scale(0.9);
+		}
+
+	.padEntry .padEntryTitle {
+		font-size: 26pt;
+		display: inline-block;
+		margin-right: 12px;
+		position: relative;
+		text-shadow: 0px 0px 2px #555555;
+	}
+
+	.padEntry .padEntryLogo {
+		width: 36px;
+		height: 36px;
+		display: inline-block;
+		margin-left: 12px;
+		margin-right: 12px;
+	}
+
+	.padEntryRight {
+		position: absolute;
+		right: 12px;
+	}
+
+.padEntryBody {
+	margin-bottom: 6px;
+}
+
+.padEntryBody .padEntryFile {
+	width: 95%;
+	margin-left: 2.5%;
+	position: relative;
+	transition: 0.1s ease-in-out all;
+	padding: 6px;
+	border: 1px solid rgba(0,0,0,0);
+}
+
+	.padEntryBody .padEntryFile:hover {
+		border: 1px solid #006600;
+		border-radius: 4px;
+		box-shadow: 0px 0px 3px 0px #555555;
+	}
+
+.padEntryBody .padEntryFileName {
+	font-size: 12pt;
+	display: inline-block;
+}
+
+.padEntryBody .padEntryFileButtons {
+	position: absolute;
+	right: 6px;
+	display: inline-block;
+}
+
+	.padEntryBody .padEntryFileIcon {
+		font-family: 'lilyicons';
+		font-size: 12pt;
+		color: #006600;
+		display: inline-block;
+		text-shadow: 0px 0px 2px #555555;
+		cursor: pointer;
+		transition: 0.07s ease-in-out all;
+		transform-origin: 50% 50%;
+		opacity: 0;
+		margin-left: 8px;
+	}
+
+	.padEntryFile:hover .padEntryFileIcon {
+		opacity: 1;
+	}
+
+		.padEntryBody .padEntryFileIcon:hover {
+			color: #003300;
+			text-shadow: 0px 0px 4px #555555;
+		}
+
+		.padEntryBody .padEntryFileIcon:active {
+			transform: scale(0.9);
+		}
 
 .hidden {
 	display: none !IMPORTANT;
