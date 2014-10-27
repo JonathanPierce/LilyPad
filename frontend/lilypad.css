@@ -536,6 +536,68 @@ body {
 			transform: scale(0.9);
 		}
 
+@keyframes overlaypopin {
+	0% {
+		opacity: 0;
+		transform: scale(0.05);
+	}
+
+	20% {
+		opacity: 0.25;
+		transform: scale(0.3);
+	}
+
+	80% {
+		opacity: 0.75;
+		transform: scale (0.8);
+	}
+
+	90% {
+		opacity: 0.9;
+		transform: scale(1.1);
+	}
+
+	100% {
+		opacity: 1;
+		transform: scale(1.0);
+	}
+}
+
+.overlay {
+	padding: 12px;
+	position: absolute;
+	z-index: 100;
+	border-radius: 4px;
+	border: 1px solid #006600;
+	background: rgba(255,255,255,0.8);
+	width: 60%;
+	height: 60%;
+	left: 20%;
+	top: 20%;
+	box-shadow: 0px 0px 10px 4px #003300;
+	transform-origin: 50% 50%;
+	transition: 0.1s ease-in-out all;
+}
+
+.overlayforward {
+	animation: overlaypopin 0.3s ease-in-out;
+}
+
+.overlayreverse {
+	animation: overlaypopin 0.3s ease-in-out;
+	animation-direction: reverse;
+}
+
+.clickeater {
+	position: absolute;
+	left: 0px;
+	top: 0px;
+	width: 100%;
+	height: 100%;
+	background: rgba(0,0,0,0.7);
+	z-index: 99;
+}
+
 .hidden {
 	display: none !IMPORTANT;
 }

@@ -44,6 +44,12 @@ window.onload = function() {
 		switchMainScreen(next);
 	});
 
+	$("#headerHelpButton").click(function() {
+		var help = document.createElement("DIV");
+		help.innerHTML = "Don't forget about me! :(";
+		showOverlay(help);
+	});
+
 	// Get the configuration
 	getJSON("config.json", function(result) {
 		config = result;
@@ -204,7 +210,7 @@ var renderCreateEditPage = function() {
 	// Create the (floating) footer
 	var footer = document.createElement("DIV");
 	footer.setAttribute('class', 'editFooter');
-	footer.innerHTML = '<div id="editURLWrapper"><input type="text" id="editURL" placeholder="enter a url..." /><div id="editURLGo" class="noselect" title="submit this URL"></div></div><div id="editFiles" class="noselect">choose some files</div><div id="editStandalone" class="noselect">pick an app</div>';
+	footer.innerHTML = '<div id="editURLWrapper"><input type="text" id="editURL" placeholder="add a url..." /><div id="editURLGo" class="noselect" title="submit this URL"></div></div><div id="editFiles" class="noselect">add some files</div><div id="editStandalone" class="noselect">add a program</div>';
 	screen.appendChild(footer);
 };
 
@@ -225,13 +231,43 @@ var renderPadContents = function(node, arg) {
 		for(var j = 0; j < contents[i].files.length; j++) {
 			var file = document.createElement('DIV');
 			file.setAttribute('class', 'padEntryFile');
-			file.innerHTML = '<div class="padEntryFileName">' + contents[i].files[j] + '</div><div class="padEntryFileButtons"><div class="padEntryFileIcon padEntryFileChevron noselect" title="choose a different program for these files"></div><div class="padEntryFileIcon noselect" title="remove this file"></div></div>';
+			file.innerHTML = '<div class="padEntryFileName">' + contents[i].files[j] + '</div><div class="padEntryFileButtons"><div class="padEntryFileIcon padEntryFileChevron noselect" title="choose a different program for this file"></div><div class="padEntryFileIcon noselect" title="remove this file"></div></div>';
 			entryBody.appendChild(file);
 		}
 		entry.appendChild(entryBody);
 
 		node.appendChild(entry);
 	}
+};
+
+var showOverlay = function(content) {
+	var overlay = document.createElement('DIV');
+	overlay.setAttribute('class', 'overlay');
+	overlay.appendChild(content);
+
+	var clickeater = document.createElement('DIV');
+	clickeater.setAttribute('title', 'click to close the pop-up');
+	clickeater.setAttribute('class', 'clickeater');
+	// remove when clicked
+	var listener = clickeater.addEventListener('click', function() {
+		clickeater.removeEventListener('click', listener);
+		
+		document.querySelector('.overlay').classList.remove('overlayforward');
+		document.querySelector('.overlay').offsetWidth = document.querySelector('.overlay').offsetWidth; // trigger HTML reflow
+		document.querySelector('.overlay').classList.add('overlayreverse');
+		setTimeout(function() {
+			var toremove = document.querySelector('.overlay');
+			toremove.parentNode.removeChild(toremove);
+			var toremove = document.querySelector('.clickeater');
+			toremove.parentNode.removeChild(toremove);
+		}, 300);
+	});
+
+	document.body.appendChild(clickeater);
+	document.body.appendChild(overlay);
+
+	//begin animation
+	overlay.classList.add('overlayforward');
 };
 
 /* 
