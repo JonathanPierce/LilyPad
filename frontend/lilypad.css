@@ -94,7 +94,23 @@ body {
 	height: calc(100% - 120px);
 	width: 100%;
 	overflow-y: auto;
-	overflow-x: none;
+	overflow-x: hidden;
+}
+
+@keyframes animatemain {
+	0% {
+		transform: translateX(200px) scale(0.8);
+		opacity: 0.4;
+	}
+
+	100% {
+		transform: translateX(0px) scale(1.0);
+		opacity: 1;
+	}
+}
+
+.doMainAnimation {
+	animation: animatemain 0.2s ease-in-out;
 }
 
 .lilyfooter {
@@ -111,7 +127,7 @@ body {
 
 	.lilyfooter .lilyfooterbutton {
 		display: inline-block;
-		width: 150px;
+		min-width: 150px;
 		height: 40px;
 		border-radius: 4px;
 		font-size: 18pt;
@@ -126,7 +142,10 @@ body {
 		margin-top: 4px;
 		margin-right: 4px;
 		margin-left: 4px;
+		padding-left: 8px;
+		padding-right: 8px;
 		cursor: pointer;
+		z-index: 15;
 	}
 
 		.lilyfooter .lilyfooterbutton:hover {
@@ -145,8 +164,8 @@ body {
 		text-shadow: 0px 0px 3px #006600;
 		position: absolute;
 		bottom: 0px;
-		left: 0px;
-		width: 100%;
+		left: 25%;
+		width: 50%;
 		height: 50px;
 		line-height: 50px;
 		text-align: center;
@@ -156,7 +175,7 @@ body {
 
 	.lilyfooter .passive.passiveHide {
 		opacity: 0;
-		transform: scale(0.1);
+		transform: scale(0.1) translateY(80px);
 	}
 
 	.lliyfooter .passive.passiveShow {
@@ -178,7 +197,6 @@ body {
 	position: relative;
 	transform-origin: 50% 50%;
 	transition: 0.1s ease-in-out all;
-	border: 1px solid #003300;
 	border-radius: 4px;
 }
 
@@ -256,6 +274,30 @@ body {
 	.padbox:hover .padboxlabels {
 		visibility: visible;
 		opacity: 1;
+	}
+
+.launchPageWelcome {
+	padding-left: 36px;
+	width: 70%;
+	font-size: 16pt;
+}
+
+	.launchPageWelcome #launchPageWelcomeHeader {
+		font-size: 64pt;
+		color: #003300;
+		text-shadow: 0px 0px 5px #33CC33;
+	}
+
+.editPageWelcome {
+	margin-left: 15%;
+	width: 70%;
+	font-size: 12pt;
+}
+
+	.editPageWelcome #editPageWelcomeHeader {
+		font-size: 32pt;
+		color: #003300;
+		text-shadow: 0px 0px 1px #33CC33;
 	}
 
 .editHeader {
@@ -350,12 +392,10 @@ body {
 
 	.editFooter #editURLWrapper {
 		display: inline-block;
-		width: 33%;
+		width: 32%;
 		height: 32px;
 		margin-top: 3px;
 		margin-bottom: 3px;
-		margin-left: 1.5px;
-		margin-right: 1.5px;
 		position: relative;
 	}
 
@@ -395,8 +435,6 @@ body {
 	.editFooter #editFiles, .editFooter #editStandalone {
 		display: inline-block;
 		width: 32%;
-		margin-left: 1.5px;
-		margin-right: 1.5px;
 		margin-top: 3px;
 		margin-bottom: 3px;
 		border-radius: 4px;

@@ -5,51 +5,50 @@ var pads = {};
 
 // Bootstrap the application
 window.onload = function() {
-	// Add event listeners
-	// $("#filesButton").click(function() {
-	// 	pick(function(result) {
-	// 		var paths = result.paths;
-	// 		document.getElementById('filesTextArea').value = paths.join('\n');
-	// 	});
-	// });
-
-	// $("#shellButton").click(function() {
-	// 	launch(function(result) {
-	// 		console.log(result);
-	// 	});
-	// });
-
-	// $("#getJSONButton").click(function() {
-	// 	getJSON(function(result) {
-	// 		document.getElementById("JSONTextArea").value = JSON.stringify(result.JSON);
-	// 	})
-	// });
-
-	// $("#setJSONButton").click(function() {
-	// 	setJSON(function(result) {
-	// 		console.log(result);
-	// 	})
-	// });
-
-	$("#testingButton").click(function() {
-		var currentList = ['launchPage', 'createEditPage'];
-
-		var next = "testingPage";
-		for(var i = 0; i < currentList.length; i++) {
-			if(!document.querySelector('#' + currentList[i]).classList.contains('hidden')) {
-				next = currentList[(i + 1) % currentList.length];
-			}
-		}
-
-		switchMainScreen(next);
-	});
-
+	// Show the help page
 	$("#headerHelpButton").click(function() {
 		var help = document.createElement("DIV");
 		help.innerHTML = "Don't forget about me! :(";
 		showOverlay(help);
 	});
 
+	// Allow a pad to be edited
+	$("#launchPage").delegate('.padboxeditbutton', 'click', function(e) {
+		var target = e.target.parentNode;
+		var pad = target.pad;
+
+		switchMainScreen('createEditPage', pad);
+	});
+
+	// Handle the footer buttons
+	$(".lilyfooter").delegate('.lilyfooterbutton', 'click', function(e) {
+		var id = e.target.getAttribute('id');
+		var handled = false;
+
+		if(id == 'savePadButton') {
+			// TEMP!!!!!!!!!!!!!!!!!!
+			handled = true;
+			switchMainScreen('launchPage');
+		}
+
+		if(id == 'newPadButton') {
+			handled = true;
+			switchMainScreen('createEditPage', null);
+		}
+
+		if(!handled) {
+			alert("Error: Button " + id + " not handled!");
+		}
+	});
+
+	// Handle the color picker
+	$('#createEditPage').delegate('.colorBlob', 'click', function(e) {
+		document.querySelector('.activeColorBlob').classList.remove("activeColorBlob");
+
+		e.target.classList.add('activeColorBlob');
+	});
+
+	// START SEQUENCE
 	// Get the configuration
 	getJSON("config.json", function(result) {
 		config = result;
@@ -59,10 +58,10 @@ window.onload = function() {
 			pads = pad_result.pads;
 
 			// Switch to the first page
-			switchMainScreen('createEditPage');
+			switchMainScreen('launchPage');
 
 			// WE DID IT
-			console.log("Lilypad is ready!");
+			showPassive("Lilypad is ready!");
 		})
 	});
 };
@@ -100,13 +99,26 @@ var switchMainScreen = function(screen, args) {
 	for(var i = 0; i < mainsections.length; i++) {
 		if(!mainsections[i].classList.contains('hidden')) {
 			mainsections[i].classList.add('hidden');
+			mainsections[i].classList.remove('doMainAnimation');
 		}
 	}
+
+	// Hide all footer buttons and the edit footer
+	var buttons = document.querySelectorAll('.lilyfooterbutton')
+	for(var i = 0; i < buttons.length; i++) {
+		buttons[i].classList.add("hidden");
+		if(buttons[i].classList.contains(screen + "Button")) {
+			buttons[i].classList.remove("hidden");
+		}
+	}
+	document.querySelector('.editFooter').classList.add('hidden');
 
 	// Show the one we want to show
 	var toshow = document.querySelector('#' + screen);
 	if(toshow) {
 		toshow.classList.remove('hidden');
+		toshow.offsetWidth = toshow.offsetWidth; // Force DOM reflow for animation
+		toshow.classList.add('doMainAnimation');
 	}
  
 	// Initialize the testing page (if necessary)
@@ -116,7 +128,7 @@ var switchMainScreen = function(screen, args) {
 
 	// Initalize the edit page (if necessary)
 	if(screen === 'createEditPage') {
-		renderCreateEditPage();
+		renderCreateEditPage(args);
 	}
 
 	// Initalize the launch page (if necessary)
@@ -140,6 +152,9 @@ var renderLaunchPage = function() {
 		var padbox = document.createElement("DIV");
 		padbox.setAttribute("class", "padbox noselect");
 		padbox.style.backgroundColor = pads[i].color;
+
+		// Leave a reference
+		padbox.pad = pads[i];
 
 		// Give it a name
 		var padboxname = document.createElement("DIV");
@@ -167,10 +182,16 @@ var renderLaunchPage = function() {
 		screen.appendChild(padbox);
 	}
 
-	// ToDo: Handle the case where there are no pads!
+	// Handle the case where there are no pads!
+	if(pads.length == 0) {
+		var welcome = document.createElement('DIV');
+		welcome.setAttribute('class', 'launchPageWelcome');
+		welcome.innerHTML = '<h1 id="launchPageWelcomeHeader">Welcome to Lilypad!</h1><div>Click on the \'new pad\' button in the lower right-hand corner to get started. :)</div>';
+		screen.appendChild(welcome);
+	}
 };
 
-var renderCreateEditPage = function() {
+var renderCreateEditPage = function(current) {
 	var renderColorPicker = function(node) {
 		for(var i = 0; i < config.colors.length; i++) {
 			var colorBlob = document.createElement('DIV');
@@ -184,7 +205,7 @@ var renderCreateEditPage = function() {
 	};
 
 	// Update the header title
-	document.querySelector("#subheader").innerHTML = "Edit Pad";
+	document.querySelector("#subheader").innerHTML = current ? "Edit Pad" : "New Pad";
 
 	var screen = document.querySelector('#createEditPage');
 	screen.innerHTML = "";
@@ -196,47 +217,55 @@ var renderCreateEditPage = function() {
 	renderColorPicker(bodyheader.querySelector('.colorPickerHost'));
 	screen.appendChild(bodyheader);
 
-	document.querySelector('.editHeaderName').focus(); // TODO: Only if the pad is new!
+	if(!current) {
+		// only focus if the pad is new
+		document.querySelector('.editHeaderName').focus();
+	}
 	// Set the title
-	document.querySelector('.editHeaderName').value = ""; // TODO: Update to appropriate value
+	document.querySelector('.editHeaderName').value = current ? current.name : "";
 	// TODO: Set the correct color!!!
 
 	// Create the body
 	var body = document.createElement("DIV");
 	body.setAttribute('class', 'editBody');
-	renderPadContents(body, pads[0]); // Do the real work. Hardcodes to pads[0] for now.
+	renderPadContents(body, current); // Do the real work.
 	screen.appendChild(body);
 
-	// Create the (floating) footer
-	var footer = document.createElement("DIV");
-	footer.setAttribute('class', 'editFooter');
-	footer.innerHTML = '<div id="editURLWrapper"><input type="text" id="editURL" placeholder="add a url..." /><div id="editURLGo" class="noselect" title="submit this URL"></div></div><div id="editFiles" class="noselect">add some files</div><div id="editStandalone" class="noselect">add a program</div>';
-	screen.appendChild(footer);
+	// Show the footer
+	document.querySelector('.editFooter').classList.remove('hidden');
 };
 
 var renderPadContents = function(node, arg) {
-	var contents = arg.contents;
-	for(var i = 0; i < contents.length; i++) {
-		var entry = document.createElement("DIV");
-		entry.setAttribute('class', 'padEntry');
+	// If arg is null, the pad is new
+	if(arg && arg.contents.length > 0) {
+		var contents = arg.contents;
+		for(var i = 0; i < contents.length; i++) {
+			var entry = document.createElement("DIV");
+			entry.setAttribute('class', 'padEntry');
 
-		var entryHeader = document.createElement('DIV');
-		entryHeader.setAttribute('class', 'padEntryHeader');
-		entryHeader.classList.add('noselect');
-		entryHeader.innerHTML = '<div class="padEntryHeaderLeft"><img src="icons/google_chrome.png" class="padEntryLogo" /><div class="padEntryTitle">Chrome</div><div class="padEntryIcon padEntryTitleChevron noselect" title="choose a different program for these files"></div></div><div class="padEntryIcon padEntryRight noselect" title="remove this program and all its files"></div>';
-		entry.appendChild(entryHeader);
+			var entryHeader = document.createElement('DIV');
+			entryHeader.setAttribute('class', 'padEntryHeader');
+			entryHeader.classList.add('noselect');
+			entryHeader.innerHTML = '<div class="padEntryHeaderLeft"><img src="icons/google_chrome.png" class="padEntryLogo" /><div class="padEntryTitle">Chrome</div><div class="padEntryIcon padEntryTitleChevron noselect" title="choose a different program for these files"></div></div><div class="padEntryIcon padEntryRight noselect" title="remove this program and all its files"></div>';
+			entry.appendChild(entryHeader);
 
-		var entryBody = document.createElement('DIV');
-		entryBody.setAttribute('class', 'padEntryBody');
-		for(var j = 0; j < contents[i].files.length; j++) {
-			var file = document.createElement('DIV');
-			file.setAttribute('class', 'padEntryFile');
-			file.innerHTML = '<div class="padEntryFileName">' + contents[i].files[j] + '</div><div class="padEntryFileButtons"><div class="padEntryFileIcon padEntryFileChevron noselect" title="choose a different program for this file"></div><div class="padEntryFileIcon noselect" title="remove this file"></div></div>';
-			entryBody.appendChild(file);
+			var entryBody = document.createElement('DIV');
+			entryBody.setAttribute('class', 'padEntryBody');
+			for(var j = 0; j < contents[i].files.length; j++) {
+				var file = document.createElement('DIV');
+				file.setAttribute('class', 'padEntryFile');
+				file.innerHTML = '<div class="padEntryFileName">' + contents[i].files[j] + '</div><div class="padEntryFileButtons"><div class="padEntryFileIcon padEntryFileChevron noselect" title="choose a different program for this file"></div><div class="padEntryFileIcon noselect" title="remove this file"></div></div>';
+				entryBody.appendChild(file);
+			}
+			entry.appendChild(entryBody);
+
+			node.appendChild(entry);
 		}
-		entry.appendChild(entryBody);
-
-		node.appendChild(entry);
+	} else {
+		var welcome = document.createElement('DIV');
+		welcome.setAttribute('class', 'editPageWelcome');
+		welcome.innerHTML = '<h1 id="editPageWelcomeHeader">Let\'s add some stuff!</h1><div>Use the three buttons below to add websites, files, and standalone programs to this pad.<br/><br/>Be sure to choose a name and color for your pad. Then, when you are done editing your pad, simply click \'Done\'!</div>';
+		node.appendChild(welcome);
 	}
 };
 
@@ -249,9 +278,19 @@ var showOverlay = function(content) {
 	clickeater.setAttribute('title', 'click to close the pop-up');
 	clickeater.setAttribute('class', 'clickeater');
 	// remove when clicked
-	var listener = clickeater.addEventListener('click', function() {
-		clickeater.removeEventListener('click', listener);
-		
+	clickeater.addEventListener('click', closeOverlay);
+
+	document.body.appendChild(clickeater);
+	document.body.appendChild(overlay);
+
+	//begin animation
+	overlay.classList.add('overlayforward');
+};
+
+var closeOverlay = function () {
+	var overlay = document.querySelector('.overlay');
+
+	if(overlay) {
 		document.querySelector('.overlay').classList.remove('overlayforward');
 		document.querySelector('.overlay').offsetWidth = document.querySelector('.overlay').offsetWidth; // trigger HTML reflow
 		document.querySelector('.overlay').classList.add('overlayreverse');
@@ -261,13 +300,7 @@ var showOverlay = function(content) {
 			var toremove = document.querySelector('.clickeater');
 			toremove.parentNode.removeChild(toremove);
 		}, 300);
-	});
-
-	document.body.appendChild(clickeater);
-	document.body.appendChild(overlay);
-
-	//begin animation
-	overlay.classList.add('overlayforward');
+	}
 };
 
 var showPassive = function(message) {
@@ -285,8 +318,3 @@ var showPassive = function(message) {
 		}, 2500)
 	}
 };
-
-/* 
-ToDo:
-- Chevron popup window
-*/
