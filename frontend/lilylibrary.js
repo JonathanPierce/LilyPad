@@ -57,7 +57,15 @@ var generateShellScript = function(pad) {
 // associated with the same program.
 // author: Lorraine
 var insertIntoPad = function(pad, delta) {
-
+	//for each program in delta
+		//see if it is already in pad contents
+			//if not then add everything
+			//if yes then 
+				//if there are files under that prog in delta
+				  //then for each of those files
+					//if in pad add to duplicates array
+					//else add to pad
+				//else add to duplicates
 };
 
 // getDefaultPrograms
