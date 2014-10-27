@@ -270,9 +270,23 @@ var showOverlay = function(content) {
 	overlay.classList.add('overlayforward');
 };
 
+var showPassive = function(message) {
+	var passive = document.querySelector('.passive');
+	passive.innerHTML = message;
+
+	if(!passive.classList.contains('passiveShow')) {
+		passive.classList.remove('passiveHide');
+		passive.classList.add('passiveShow');
+
+		setTimeout(function() {
+			var passive = document.querySelector('.passive');
+			passive.classList.remove('passiveShow');
+			passive.classList.add('passiveHide');
+		}, 2500)
+	}
+};
+
 /* 
 ToDo:
-- Overlay control (for picking programs, help page, etc...)
-- Bottom bar passive info (conside program list, tooltips, feedback...)
 - Chevron popup window
 */
