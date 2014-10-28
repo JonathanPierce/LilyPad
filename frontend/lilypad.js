@@ -247,6 +247,10 @@ var renderPadContents = function(node, arg) {
 			entryHeader.setAttribute('class', 'padEntryHeader');
 			entryHeader.classList.add('noselect');
 			entryHeader.innerHTML = '<div class="padEntryHeaderLeft"><img src="icons/google_chrome.png" class="padEntryLogo" /><div class="padEntryTitle">Chrome</div><div class="padEntryIcon padEntryTitleChevron noselect" title="choose a different program for these files"></div></div><div class="padEntryIcon padEntryRight noselect" title="remove this program and all its files"></div>';
+			// Give it the correct name and logo
+			var program = getProgramInfo(contents[i].program,config);
+			entryHeader.querySelector('.padEntryTitle').innerHTML = program.display_name;
+			entryHeader.querySelector('.padEntryLogo').src = program.icon_path;
 			entry.appendChild(entryHeader);
 
 			var entryBody = document.createElement('DIV');

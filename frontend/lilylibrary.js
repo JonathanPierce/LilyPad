@@ -14,7 +14,7 @@ var pad = {
 		program: "Calculator",
 		files: []
 	},{
-		program: "Sublime Text",
+		program: "Sublime",
 		files: ["home/jmpierc2/lilypad/frontend/frontend.js", "home/jmpierc2/lilypad/frontend/lilylibrary.js", "home/jmpierc2/lilypad/backend/backend.py", "home/jmpierc2/lilypad/backend/config.json"]
 	}
 	]
@@ -168,11 +168,16 @@ var getStandalonePrograms = function(config) {
 
 // Given a program name string, returns the corresponding entry from the config.
 // author: John
+// Yes, I wrote this for you. Don't feel bad. -Jonathan
 var getProgramInfo = function(name, config){
-
+	for(var i = 0; i < config.programs.length; i++) {
+		if(config.programs[i].display_name.toLowerCase() === name.toLowerCase()) {
+			return config.programs[i];
+		}
+	}
 };
 
-//returns true if input is a valid URL.
+//returns true if input (stirng) is a valid URL.
 // author: Andrew
 var validateURL = function(input){
 
