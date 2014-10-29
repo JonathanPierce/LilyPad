@@ -75,9 +75,8 @@ var pick = function(callback) {
 	$.getJSON(req_url + 'pick').done(callback);
 };
 
-var launch = function(callback) {
-	var text = document.getElementById("shellTextArea").value;
-	$.getJSON(req_url + 'launch', {script: text}).done(callback);
+var launch = function(sh, callback) {
+	$.getJSON(req_url + 'launch', {script: sh}).done(callback);
 };
 
 var getJSON = function(file, callback) {
