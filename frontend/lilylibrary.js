@@ -57,15 +57,55 @@ var generateShellScript = function(pad) {
 // associated with the same program.
 // author: Lorraine
 var insertIntoPad = function(pad, delta) {
+	var retArr = [];
+	//var retCtr = 0;
 	//for each program in delta
+	for(var i = 0;i<delta.length;i++){
 		//see if it is already in pad contents
-			//if not then add everything
+		var hasProg = false;
+		for(var j=0;j<pad.contents.length;j++){
 			//if yes then 
+			if(pad.contents[j].program == delta[i].program){
+				hasProg = true;
 				//if there are files under that prog in delta
+				if(0 != delta[i].files.length){
+				  var arrEntry = new Object();
+				  arrEntry.program = delta[i].program;
+				  arrEntry.files = [];
+				  var hasDuplicateFile = false;
 				  //then for each of those files
-					//if in pad add to duplicates array
-					//else add to pad
+				   for(var k = 0; k<delta[i].files.length;k++){
+					var hasFile = false;
+					//if in pad add to duplicates array entry
+					for(var l = 0; l<pad.contents[j].files.length;l++){
+					   if(pad.contents[j].files[l] == delta[i].files[k]){
+						arrEntry.files.push(delta[i].files[k]);
+						hasFile = true;
+						hasDuplicateFile = true;
+					   }
+					}
+					//else add to pad contents 
+					if(!hasFile){
+						pad.contents[j].files.push(delta[i].files[k]);
+					}
+				   }
+				   if(hasDuplicateFile){
+					retArr.push(arrEntry);
+				   }
+				}
 				//else add to duplicates
+				else{
+					retArr.push(delta[i]);
+				}
+			}
+		}
+		//if not in pad then add everything
+		if(!hasProg){
+			pad.contents.push(delta[i]);
+		}		
+
+	}
+	return retArr;
 };
 
 // getDefaultPrograms
@@ -111,7 +151,18 @@ var getConciseProgramList = function(pad) {
 // getStandalonePrograms
 // Searches the config object, returns an array of all entries that are standalone programs
 // author: Lorraine
-var getStandalonePrograms = function() {
+var getStandalonePrograms = function(config) {
+	var progs = config.programs;
+	var ctr = 0;
+	var retArr = [];
+	for(var i = 0; i<progs.length;i++){
+		if(true == progs[i].standalone){
+			//add this program to the return array
+			retArr[ctr] = progs[i];
+			ctr++;
+		}
+	}
+	return retArr;
 
 };
 
