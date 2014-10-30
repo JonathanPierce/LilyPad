@@ -136,6 +136,9 @@ var insertIntoPad = function(pad, delta) {
 };
 
 var getFileType = function(path){
+	if(validateURL(path)) {
+		return "url";
+	}
 	var dotIndex = path.lastIndexOf(".");
 	return path.substring(dotIndex + 1);
 };

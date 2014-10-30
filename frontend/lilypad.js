@@ -20,6 +20,28 @@ window.onload = function() {
 		switchMainScreen('createEditPage', pad);
 	});
 
+	// Allow a pad to be launched
+	var launchRateLimited = false;
+	$("#launchPage").delegate('.padboxplaybutton', 'click', function(e) {
+		var target = e.target.parentNode;
+		var pad = target.pad;
+
+		if(!launchRateLimited) {
+			launchRateLimited = true;
+			launch(generateShellScript(pad), function(result) {
+				if(result.success) {
+					showPassive('Launched ' + pad.name + '!');
+				} else {
+					showPassive('Something went wrong. :(');
+				}
+
+				setTimeout(function() {
+					launchRateLimited = false;
+				}, 5000);
+			});
+		}
+	});
+
 	// Handle the footer buttons
 	$(".lilyfooter").delegate('.lilyfooterbutton', 'click', function(e) {
 		var id = e.target.getAttribute('id');
@@ -66,11 +88,6 @@ window.onload = function() {
 	});
 };
 
-var log = function(input) {
-	input = input || "log: No input found.";
-	console.log(input);
-};
-
 var pick = function(callback) {
 	$.getJSON(req_url + 'pick').done(callback);
 };
@@ -85,9 +102,8 @@ var getJSON = function(file, callback) {
 	});
 };
 
-var setJSON = function(callback) {
-	var file = document.getElementById("JSONFileName").value;
-	var data = document.getElementById("JSONTextArea").value;
+var setJSON = function(data, callback) {
+	var file = "pads.json";
 	$.getJSON(req_url + 'setjson', {file: file, data: data}).done(callback);
 };
 
@@ -222,7 +238,16 @@ var renderCreateEditPage = function(current) {
 	}
 	// Set the title
 	document.querySelector('.editHeaderName').value = current ? current.name : "";
-	// TODO: Set the correct color!!!
+	// Select the correct color
+	if(current) {
+		bodyheader.querySelector('.activeColorBlob').classList.remove('activeColorBlob');
+		var blobs = bodyheader.querySelectorAll('.colorBlob');
+		for(var i = 0; i < blobs.length; i++) {
+			if(blobs[i].style.backgroundColor === current.color) {
+				blobs[i].classList.add('activeColorBlob');
+			}
+		}
+	}
 
 	// Create the body
 	var body = document.createElement("DIV");
@@ -235,6 +260,8 @@ var renderCreateEditPage = function(current) {
 };
 
 var renderPadContents = function(node, arg) {
+	node.innerHTML = "";
+
 	// If arg is null, the pad is new
 	if(arg && arg.contents.length > 0) {
 		var contents = arg.contents;
@@ -251,6 +278,12 @@ var renderPadContents = function(node, arg) {
 			entryHeader.querySelector('.padEntryTitle').innerHTML = program.display_name;
 			entryHeader.querySelector('.padEntryLogo').src = program.icon_path;
 			entry.appendChild(entryHeader);
+			// Hide the title chevron if there are no alternative programs
+			// Or, if the program is standalone.
+			var alternatives = getAlternativeProgramsList(contents[i].files, config);
+			if(program.standalone || alternatives.length === 0) {
+				entryHeader.querySelector('.padEntryTitleChevron').classList.add('hidden');
+			}
 
 			var entryBody = document.createElement('DIV');
 			entryBody.setAttribute('class', 'padEntryBody');
@@ -259,6 +292,12 @@ var renderPadContents = function(node, arg) {
 				file.setAttribute('class', 'padEntryFile');
 				file.innerHTML = '<div class="padEntryFileName">' + contents[i].files[j] + '</div><div class="padEntryFileButtons"><div class="padEntryFileIcon padEntryFileChevron noselect" title="choose a different program for this file"></div><div class="padEntryFileIcon noselect" title="remove this file"></div></div>';
 				entryBody.appendChild(file);
+
+				// Hide the chevron if needed
+				var alternative = getAlternativePrograms(getFileType(contents[i].files[j]),config);
+				if(alternative.length <= 1) {
+					file.querySelector('.padEntryFileChevron').classList.add('hidden');
+				}
 			}
 			entry.appendChild(entryBody);
 
