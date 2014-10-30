@@ -194,6 +194,19 @@ var getDefaultPrograms = function(paths, config) {
 	return createDeltaArr(programToPaths); 
 };
 
+var getAlternativePrograms = function(type, config) {
+	var altPrograms = [];
+	var programs = config.programs;
+	var j = 0;
+	for(;j < programs.length; j++) {
+		var program = programs[j];
+		if($.inArray(type, program.types) !== -1){
+			altPrograms.push(program.display_name);
+		}
+	}
+	return altPrograms;
+};
+
 // getAlternativePrograms
 // Depends on config.json!
 // This function should have a way to detect URLs
@@ -201,11 +214,10 @@ var getDefaultPrograms = function(paths, config) {
 // output: A list of programs (array of display-name strings) that supports 
 // every filetype in the list.
 // author: John
-var getAlternativePrograms = function(paths, config) {
+var getAlternativeProgramsList = function(paths, config) {
 	var i = 0;
 	var altProgramsList = [];
 	for(; i < paths.length; i++) {
-		var altPrograms = [];
 		var path = paths[i];
 		var type = ""		
 		if(isValidURL(path)) {
@@ -213,14 +225,7 @@ var getAlternativePrograms = function(paths, config) {
 		} else {
 			type = getFileType(path);
 		}
-		var programs = config.programs;
-		var j = 0;
-		for(;j < programs.length; j++) {
-			var program = programs[j];
-			if($.inArray(type, program.types) !== -1){
-				altPrograms.push(program.display_name);
-			}
-		}
+		var altPrograms = getAlternativePrograms(type, config);
 		altProgramsList.push(altPrograms);
 	}
 	return altProgramsList;
