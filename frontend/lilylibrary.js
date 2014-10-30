@@ -71,7 +71,7 @@ var generateShellScript = function(pad) {
         }
         scriptText += "( { " + programInfo.system_name + fileString + " ; } ) &\n";
     }
-    return scriptText
+    return scriptText;
 };
 //console.log(generateShellScript(pad))
 
@@ -135,12 +135,63 @@ var insertIntoPad = function(pad, delta) {
 	return retArr;
 };
 
+var getFileType = function(path){
+	var dotIndex = path.lastIndexOf(".");
+	return path.substring(dotIndex + 1);
+};
+
+var getDefaultProgram = function(fileType, config) {
+	var defaults = config.defaults;
+	for(i = 0; i < defaults.length; i++) {
+		if(fileType === defaults[i].type) {
+			return defaults[i].program;
+		}
+	}
+	return null;
+};
+
+var createDeltaArr = function(programToPaths) {
+	var deltaArr = [];	
+	for(programName in programToPaths) {
+		paths = programToPaths[programName];
+		delta = {program: programName, files: paths};
+		deltaArr.push(delta);
+	}
+	return deltaArr;
+};
+
+var isValidURL = function(str) {
+	var regexp = /(ftp|http|https):\/\/(\w+:{0,1}\w*@)?(\S+)(:[0-9]+)?(\/|\/([\w#!:.?+=&%@!\-\/]))?/;
+	return regexp.test(str);
+}
+
 // getDefaultPrograms
 // Given an array of paths, create a delta object like the example one above.
 // Match each path to the appropriate default program from config.json.
 // author: John
 var getDefaultPrograms = function(paths, config) {
-
+	
+	var programToPaths = {};
+	var i = 0;
+	for(; i < paths.length; i++) {
+		var path = paths[i];
+		var defaultProgram = "";
+		if(isValidURL(path)) {
+			defaultProgram = "Firefox"; //default web browser???
+		} else {
+			var fileType = getFileType(path);
+			defaultProgram = getDefaultProgram(fileType, config);
+			if(defaultProgram === null) {
+				continue; // log error?
+			}
+		}
+		if(!(defaultProgram in programToPaths)) {
+			programToPaths[defaultProgram] = [path];
+		} else {
+			programToPaths[defaultProgram].push(path)
+		}
+	}
+	return createDeltaArr(programToPaths); 
 };
 
 // getAlternativePrograms
@@ -151,7 +202,28 @@ var getDefaultPrograms = function(paths, config) {
 // every filetype in the list.
 // author: John
 var getAlternativePrograms = function(paths, config) {
-
+	var i = 0;
+	var altProgramsList = [];
+	for(; i < paths.length; i++) {
+		var altPrograms = [];
+		var path = paths[i];
+		var type = ""		
+		if(isValidURL(path)) {
+			type = "url";
+		} else {
+			type = getFileType(path);
+		}
+		var programs = config.programs;
+		var j = 0;
+		for(;j < programs.length; j++) {
+			var program = programs[j];
+			if($.inArray(type, program.types) !== -1){
+				altPrograms.push(program.display_name);
+			}
+		}
+		altProgramsList.push(altPrograms);
+	}
+	return altProgramsList;
 };
 
 // switchToAlternative
