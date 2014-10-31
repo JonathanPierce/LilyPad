@@ -239,6 +239,36 @@ var getAlternativeProgramsList = function(paths, config) {
 // program.
 // // author: Lorraine
 var switchToAlternative = function(pad, delta) {
+	//delete current pad contents contents
+	var retArr= [];
+	while(pad.contents.length > 0){
+		var hldr = pad.contents.pop();
+		for(var i = 0;i<delta.length;i++){
+			if(delta[i].program== hldr.program){
+				var arrEntry = new Object;
+				arrEntry.program = hldr.program;
+				arrEntry.files = [];
+				var hasDuplicates = 0;
+				var hasFiles =0;
+				//same progarm so compare files if there are files
+				for(var j = 0; j<delta[i].files; j++){
+				   hasFiles = 1;
+				   for(var k = 0;k<hldr.files;k++){
+					if(delta[i].files[j] == hldr.files[k]){
+						hasDuplicates = 1;
+						arrEntry.files.push(hldr.files[k]);
+					}
+				   }					
+				}
+				if((hasFiles && hasDuplicates) || !hasFiles){
+					retArr.push(arrEntry);
+				}
+			}
+		}
+	}
+	//make delta contents the pad contents contents
+	insertIntoPad(pad,delta);
+	return retArr;
 
 };
 
