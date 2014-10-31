@@ -198,6 +198,7 @@ body {
 	transform-origin: 50% 50%;
 	transition: 0.1s ease-in-out all;
 	border-radius: 4px;
+	overflow: hidden;
 }
 
 	.padbox .padboxname {

@@ -2,6 +2,7 @@
 var req_url = "http://localhost:2014/";
 var config = {};
 var pads = {};
+var editing = null;
 
 // Bootstrap the application
 window.onload = function() {
@@ -17,6 +18,13 @@ window.onload = function() {
 		var target = e.target.parentNode;
 		var pad = target.pad;
 
+		// Set editing properly
+		editing = pad;
+
+		// Remove this pad from pads
+		removePad(pad);
+
+		// Start editing
 		switchMainScreen('createEditPage', pad);
 	});
 
@@ -48,14 +56,64 @@ window.onload = function() {
 		var handled = false;
 
 		if(id == 'savePadButton') {
-			// TEMP!!!!!!!!!!!!!!!!!!
 			handled = true;
+
+			// Construct the new pad
+			editing.name = document.querySelector('.editHeaderName').value;
+			editing.color = document.querySelector('.activeColorBlob').style.backgroundColor;
+
+			// Do we have a name?
+			var hasName = editing.name !== "";
+
+			// Is it unique?
+			var unique = true;
+			for(var i = 0; i < pads.length; i++) {
+				if(editing.name === pads[i].name) {
+					unique = false;
+				}
+			}
+
+			// If no name AND no contents, just switch to launch
+			if(!hasName && editing.contents.length === 0) {
+				switchMainScreen('launchPage');
+				return;
+			}
+
+			// Otherwise, put up a fight
+			if(!hasName) {
+				showPassive("Give your pad a name first!");
+				return;
+			}
+
+			if(!unique) {
+				showPassive("Please choose a different name.");
+				return;
+			}
+
+			// Save the pad
+			pads.push(editing);
+			editing = null;
+
+			// TODO: Set JSON
+
+			// We're saved! Return home.
 			switchMainScreen('launchPage');
 		}
 
 		if(id == 'newPadButton') {
 			handled = true;
 			switchMainScreen('createEditPage', null);
+			editing = {name: "", color: "red", contents: []};
+		}
+
+		if(id == 'deletePadButton') {
+			handled = true;
+
+			showPassive("Deleted pad '" + (editing.name ? editing.name : 'untitled') + "'");
+
+			// TODO: CONFIRMATION DIALOG!
+			// TODO: SetJSON
+			switchMainScreen('launchPage');
 		}
 
 		if(!handled) {
@@ -69,6 +127,14 @@ window.onload = function() {
 
 		e.target.classList.add('activeColorBlob');
 	});
+
+	// Handle the URL bar
+	document.querySelector("#editURL").addEventListener('keydown', function(e) {
+		if(e.keyCode === 13) { // enter
+			handleURLBar();
+		}
+	});
+	document.querySelector("#editURLGo").addEventListener('click', handleURLBar);
 
 	// START SEQUENCE
 	// Get the configuration
@@ -86,6 +152,44 @@ window.onload = function() {
 			showPassive("Lilypad is ready!");
 		})
 	});
+};
+
+var handleURLBar = function() {
+	var bar = document.querySelector('#editURL');
+
+	if(bar.value === "") {
+		showPassive('enter a URL first...');
+		return;
+	}
+
+	var urls = bar.value.split(';');
+	var valid = [];
+	var guessed = false;
+	for(var i = 0; i < urls.length; i++) {
+		if(isValidURL(urls[i])) {
+			valid.push(urls[i]);
+		} else {
+			if(isValidURL("http://" + urls[i])) {
+				guessed = true;
+				valid.push("http://" + urls[i]);
+			} else {
+				if(isValidURL("http://www." + urls[i])) {
+					guessed = true;
+					valid.push("http://www." + urls[i]);
+				}
+			}
+		}
+	}
+
+	if(valid.length == 0) {
+		showPassive("That URL doesn't work. :(");
+	} else {
+		var delta = getDefaultPrograms(valid, config);
+		insertIntoPad(editing, delta);
+		showPassive('Website added to pad!');
+		bar.value = "";
+		renderPadContents(document.querySelector('.editBody'), editing);
+	}
 };
 
 var pick = function(callback) {
@@ -160,6 +264,8 @@ var renderLaunchPage = function() {
 
 	// clear whatever is there now
 	screen.innerHTML = "";
+
+	// TODO: Sort the pads in some way
 
 	// We'll use delagted click/hover handlers. Don't worry about individual event listeners.
 	for(var i = 0; i < pads.length; i++) {

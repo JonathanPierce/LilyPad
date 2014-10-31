@@ -341,3 +341,13 @@ var validateURL = function(input){
 };
 
 //console.log(validateURL("http://stackoverflow.com/questions/6298566/regex-match-whole-string"));
+
+// Removes the pad with the same name from the list
+var removePad = function(pad) {
+	for(var i = 0; i < pads.length; i++) {
+		if(pads[i].name === pad.name) {
+			pads.splice(i,1);
+			return;
+		}
+	}
+};
