@@ -358,3 +358,11 @@ var removeFileFromProgram = function(pad, file, program) {
 		}
 	}
 };
+
+var sortPads = function(a,b) {
+	return a.name > b.name;
+};
+
+var sortContents = function(a,b) {
+	return a.program > b.program;
+}

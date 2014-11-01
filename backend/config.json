@@ -82,7 +82,7 @@
 			"icon_path" : "icons/terminal.png",
 			"types" : [],
 			"standalone" : true,
-			"system_name": "gnome-terminal"
+			"system_name": "gnome-terminal --working-directory ~"
 		},
 		{
 			"display_name" : "Kile",

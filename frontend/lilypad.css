@@ -125,7 +125,7 @@ body {
 	z-index: 10;
 }
 
-	.lilyfooter .lilyfooterbutton {
+	.lilyfooterbutton {
 		display: inline-block;
 		min-width: 150px;
 		height: 40px;
@@ -148,12 +148,12 @@ body {
 		z-index: 15;
 	}
 
-		.lilyfooter .lilyfooterbutton:hover {
+		.lilyfooterbutton:hover {
 			background-color: #003300;
 			box-shadow: 0px 0px 6px 2px #006600;
 		}
 
-		.lilyfooter .lilyfooterbutton:active {
+		.lilyfooterbutton:active {
 			transform: scale(0.95);
 			box-shadow: 0px 0px 2px 0px #006600;
 		}

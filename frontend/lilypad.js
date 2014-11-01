@@ -53,11 +53,8 @@ window.onload = function() {
 	// Handle the footer buttons
 	$(".lilyfooter").delegate('.lilyfooterbutton', 'click', function(e) {
 		var id = e.target.getAttribute('id');
-		var handled = false;
 
 		if(id == 'savePadButton') {
-			handled = true;
-
 			// Construct the new pad
 			editing.name = document.querySelector('.editHeaderName').value;
 			editing.color = document.querySelector('.activeColorBlob').style.backgroundColor;
@@ -94,30 +91,36 @@ window.onload = function() {
 			pads.push(editing);
 			editing = null;
 
-			// TODO: Set JSON
+			// Save data!
+			savePads();
 
 			// We're saved! Return home.
 			switchMainScreen('launchPage');
 		}
 
 		if(id == 'newPadButton') {
-			handled = true;
 			switchMainScreen('createEditPage', null);
 			editing = {name: "", color: "red", contents: []};
 		}
 
 		if(id == 'deletePadButton') {
-			handled = true;
+			// Create the confirmation dialog
+			var node = document.createElement('DIV');
+			node.innerHTML = '<div class="overlayHeader">Delete Pad: Are you sure?</div><div style="margin-top: 8px; margin-bottom:12px;">This action cannot be undone. Click \'no\' to return to the edit screen, and \'yes\' to delete this entire pad.</div><div class="lilyfooterbutton noselect" id="deleteYes">Yes</div><div class="lilyfooterbutton noselect" id="deleteNo">No</div>';
 
-			showPassive("Deleted pad '" + (editing.name ? editing.name : 'untitled') + "'");
+			// Hook up listeners
+			node.querySelector('#deleteYes').addEventListener('click', function() {
+				switchMainScreen('launchPage');
+				showPassive("Deleted pad '" + (editing.name ? editing.name : 'untitled') + "'");
+				closeOverlay();
 
-			// TODO: CONFIRMATION DIALOG!
-			// TODO: SetJSON
-			switchMainScreen('launchPage');
-		}
+				// Save data!
+				savePads();
+			});
+			node.querySelector('#deleteNo').addEventListener('click', closeOverlay);
 
-		if(!handled) {
-			alert("Error: Button " + id + " not handled!");
+			// Show the confirmation dialog
+			showOverlay(node);
 		}
 	});
 
@@ -335,6 +338,12 @@ var getJSON = function(file, callback) {
 	});
 };
 
+var savePads = function() {
+	setJSON(JSON.stringify({pads: pads}), function(res) {
+		console.log('Pads saved to disk!');
+	});
+};
+
 var setJSON = function(data, callback) {
 	var file = "pads.json";
 	$.getJSON(req_url + 'setjson', {file: file, data: data}).done(callback);
@@ -411,7 +420,8 @@ var renderLaunchPage = function() {
 	// clear whatever is there now
 	screen.innerHTML = "";
 
-	// TODO: Sort the pads in some way
+	// Sort the pads
+	pads.sort(sortPads);
 
 	// We'll use delagted click/hover handlers. Don't worry about individual event listeners.
 	for(var i = 0; i < pads.length; i++) {
@@ -517,6 +527,10 @@ var renderPadContents = function(node, arg) {
 	// If arg is null, the pad is new
 	if(arg && arg.contents.length > 0) {
 		var contents = arg.contents;
+
+		// Sort the contents
+		contents.sort(sortContents);
+
 		for(var i = 0; i < contents.length; i++) {
 			var entry = document.createElement("DIV");
 			entry.setAttribute('class', 'padEntry');
