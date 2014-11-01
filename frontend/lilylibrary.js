@@ -179,15 +179,13 @@ var getDefaultPrograms = function(paths, config) {
 	for(; i < paths.length; i++) {
 		var path = paths[i];
 		var defaultProgram = "";
-		if(isValidURL(path)) {
-			defaultProgram = "Firefox"; //default web browser???
-		} else {
-			var fileType = getFileType(path);
-			defaultProgram = getDefaultProgram(fileType, config);
-			if(defaultProgram === null) {
-				continue; // log error?
-			}
+
+		var fileType = getFileType(path);
+		defaultProgram = getDefaultProgram(fileType, config);
+		if(defaultProgram === null) {
+			continue; // log error?
 		}
+
 		if(!(defaultProgram in programToPaths)) {
 			programToPaths[defaultProgram] = [path];
 		} else {
@@ -218,61 +216,41 @@ var getAlternativePrograms = function(type, config) {
 // every filetype in the list.
 // author: John
 var getAlternativeProgramsList = function(paths, config) {
-	var i = 0;
+	if(paths.length == 0) {
+		return [];
+	}
+
 	var altProgramsList = [];
-	for(; i < paths.length; i++) {
+	for(var i = 0; i < paths.length; i++) {
 		var path = paths[i];
-		var type = ""		
-		if(isValidURL(path)) {
-			type = "url";
-		} else {
-			type = getFileType(path);
-		}
+		var type = getFileType(path);
+
 		var altPrograms = getAlternativePrograms(type, config);
+
 		altProgramsList.push(altPrograms);
 	}
-	return altProgramsList;
+
+	var results = altProgramsList[0];
+	for(var i = 1; i < altProgramsList.length; i++) {
+		results = results.filter(function(n) {
+			return altProgramsList[i].indexOf(n) !== -1;
+		});
+	}
+
+	return results;
 };
 
-// switchToAlternative
 // Switches the program associated with certain paths.
 // Given a pad as input and a delta , adds the program/file pairings specified 
 // in delta to pad. Like insertIntoPad, this should return the list of 
 // paths that appear in both pad and delta and are associated with the same
 // program.
 // // author: Lorraine
-var switchToAlternative = function(pad, delta) {
-	//delete current pad contents contents
-	var retArr= [];
-	while(pad.contents.length > 0){
-		var hldr = pad.contents.pop();
-		for(var i = 0;i<delta.length;i++){
-			if(delta[i].program== hldr.program){
-				var arrEntry = new Object;
-				arrEntry.program = hldr.program;
-				arrEntry.files = [];
-				var hasDuplicates = 0;
-				var hasFiles =0;
-				//same progarm so compare files if there are files
-				for(var j = 0; j<delta[i].files; j++){
-				   hasFiles = 1;
-				   for(var k = 0;k<hldr.files;k++){
-					if(delta[i].files[j] == hldr.files[k]){
-						hasDuplicates = 1;
-						arrEntry.files.push(hldr.files[k]);
-					}
-				   }					
-				}
-				if((hasFiles && hasDuplicates) || !hasFiles){
-					retArr.push(arrEntry);
-				}
-			}
-		}
-	}
-	//make delta contents the pad contents contents
-	insertIntoPad(pad,delta);
-	return retArr;
+var switchFileToAlternative = function(pad, file, oldProgram, newProgram) {
+	removeFileFromProgram(pad, file, oldProgram);
+	insertIntoPad(pad, [{program: newProgram, files: [file]}]);
 
+	// Remove 
 };
 
 // getConciseProgramList
@@ -340,14 +318,43 @@ var validateURL = function(input){
     return urlRegExp.test(input)
 };
 
-//console.log(validateURL("http://stackoverflow.com/questions/6298566/regex-match-whole-string"));
-
 // Removes the pad with the same name from the list
 var removePad = function(pad) {
 	for(var i = 0; i < pads.length; i++) {
 		if(pads[i].name === pad.name) {
 			pads.splice(i,1);
 			return;
+		}
+	}
+};
+
+// Removes the program from the pad
+var removeProgram = function(pad, program) {
+	var contents = pad.contents;
+	for(var i = 0; i < contents.length; i++) {
+		if(contents[i].program === program) {
+			contents.splice(i,1);
+			return;
+		}
+	}
+};
+
+var removeFileFromProgram = function(pad, file, program) {
+	var contents = pad.contents;
+	for(var i = 0; i < contents.length; i++) {
+		if(contents[i].program === program) {
+			var files = contents[i].files;
+			for(var j = 0; j < files.length; j++) {
+				if(files[j] === file) {
+					files.splice(j,1);
+
+					if(files.length == 0) {
+						removeProgram(pad, program);
+					}
+
+					return;
+				}
+			}
 		}
 	}
 };

@@ -17,7 +17,7 @@
 		{
 			"display_name" : "Gedit",
 			"icon_path" : "icons/gedit.png",
-			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
+			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html", "s", "h"],
 			"standalone" : false,
 			"system_name": "gedit"
 		},
@@ -101,28 +101,28 @@
 		{
 			"display_name" : "Sublime",
 			"icon_path" : "icons/sublime.png",
-			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
+			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html", "s", "h"],
 			"standalone" : false,
 			"system_name": "subl"
 		},
 		{
 			"display_name" : "gVim",
 			"icon_path" : "icons/gvim.png",
-			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
+			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html", "s", "h"],
 			"standalone" : false,
 			"system_name": "gvim"
 		},
 		{
 			"display_name" : "Emacs",
 			"icon_path" : "icons/emacs.png",
-			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html"],
+			"types" : ["txt", "json", "py", "java", "c", "cpp", "js", "css", "html", "s", "h"],
 			"standalone" : false,
 			"system_name": "emacs"
 		},
 		{
 			"display_name" : "Eclipse",
 			"icon_path" : "icons/eclipse.png",
-			"types" : ["java", "py", "c", "cpp"],
+			"types" : ["java", "py", "c", "cpp", "h"],
 			"standalone" : false,
 			"system_name": "eclipse"
 		},
@@ -159,9 +159,11 @@
 		{"type": "txt", "program" : "Gedit"},
 		{"type": "json", "program" : "Gedit"},
 		{"type": "py", "program" : "Gedit"},
-		{"type": "java", "program" : "Gedit"},
+		{"type": "java", "program" : "Eclipse"},
 		{"type": "c", "program" : "Gedit"},
 		{"type": "cpp", "program" : "Gedit"},
+		{"type": "h", "program" : "Gedit"},
+		{"type": "s", "program" : "Gedit"},
 		{"type": "js", "program" : "Gedit"},
 		{"type": "css", "program" : "Gedit"},
 		{"type": "html", "program" : "Gedit"},

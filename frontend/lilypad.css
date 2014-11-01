@@ -539,7 +539,7 @@ body {
 		margin-right: 12px;
 	}
 
-	.padEntryRight {
+	.padEntryDelete {
 		position: absolute;
 		right: 12px;
 	}
@@ -603,22 +603,7 @@ body {
 @keyframes overlaypopin {
 	0% {
 		opacity: 0;
-		transform: scale(0.05);
-	}
-
-	20% {
-		opacity: 0.25;
-		transform: scale(0.3);
-	}
-
-	80% {
-		opacity: 0.75;
-		transform: scale (0.8);
-	}
-
-	95% {
-		opacity: 0.9;
-		transform: scale(1.05);
+		transform: scale(0.05) translateY(8000px);
 	}
 
 	100% {
@@ -650,6 +635,35 @@ body {
 .overlayreverse {
 	animation: overlaypopin 0.3s ease-in-out;
 	animation-direction: reverse;
+}
+
+.overlayHeader {
+	padding-bottom: 8px;
+	margin-bottom: 6px;
+	font-size: 18pt;
+	border-bottom: 1px dotted #006600;
+}
+
+.overlayProgramList img {
+	margin: 8px;
+	padding: 8px;
+	border-radius: 12px;
+	width: 64px;
+	height: 64px;
+	transform-origin: 50% 50%;
+	transition: 0.07s ease-in-out all;
+	border: 1px solid rgba(0,0,0,0);
+	display: inline-block;
+}
+
+.overlayProgramList img:hover {
+	background-color: white;
+	border: 1px solid #006600;
+	box-shadow: 0px 0px 3px #555555;
+}
+
+.overlayProgramList img:active {
+	transform: scale(0.9);
 }
 
 .clickeater {

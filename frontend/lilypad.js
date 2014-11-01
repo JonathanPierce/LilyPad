@@ -136,6 +136,115 @@ window.onload = function() {
 	});
 	document.querySelector("#editURLGo").addEventListener('click', handleURLBar);
 
+	// Handle the files button
+	document.querySelector("#editFiles").addEventListener('click', function() {
+		pick(function(files) {
+			files = files.paths;
+			if(files.length > 0) {
+				// Match to defaults
+				var delta = getDefaultPrograms(files, config);
+
+				// Insert into pad
+				insertIntoPad(editing, delta);
+
+				// Render
+				showPassive('Added ' + files.length + " file" + ((files.length > 1) ? "s" : "") + " to pad!");
+				redrawEditingPad();
+			}
+		});
+	});
+
+	// Handle the standalone program button
+	document.querySelector('#editStandalone').addEventListener('click', handleStandalone);
+
+	// handle deleting an entire program
+	$('#createEditPage').delegate('.padEntryDelete', 'click', function(e) {
+		var name = e.target.parentNode.querySelector('.padEntryTitle').innerHTML;
+		removeProgram(editing,name);
+		redrawEditingPad();
+		showPassive('Removed ' + name + ' from pad.');
+	});
+
+	// handle deleting some files
+	$('#createEditPage').delegate('.padFileEntryDelete', 'click', function(e) {
+		var name = e.target.parentNode.parentNode.parentNode.parentNode.querySelector('.padEntryTitle').innerHTML;
+		var file = e.target.parentNode.parentNode.querySelector('.padEntryFileName').innerHTML;
+
+		// Do the remove
+		removeFileFromProgram(editing, file, name);
+
+		// Remove the program if there are no files left
+		var files = e.target.parentNode.parentNode.parentNode.querySelectorAll('.padEntryFile');
+
+		redrawEditingPad();
+		showPassive('File removed from ' + name + '.');
+	});
+
+	// handle a single file chevron
+	$('#createEditPage').delegate('.padEntryFileChevron', 'click', function(e) {
+		var name = e.target.parentNode.parentNode.parentNode.parentNode.querySelector('.padEntryTitle').innerHTML;
+		var file = e.target.parentNode.parentNode.querySelector('.padEntryFileName').innerHTML;
+
+		var callback = function(alt) {
+			// Do the switch
+			switchFileToAlternative(editing, file, name, alt);
+
+			// Draw the result
+			redrawEditingPad();
+			closeOverlay();
+			showPassive('Switched programs!');
+		};
+
+		var alts = getAlternativePrograms(getFileType(file), config);
+		var programs = [];
+		for(var i =0; i < alts.length; i++) {
+			if(alts[i] !== name) {
+				programs.push(getProgramInfo(alts[i], config));
+			}
+		}
+
+		// render the page
+		var node = renderOverlay("Choose a different program for this file...", programs, callback);
+		showOverlay(node);
+	});
+
+	// handle a program chevron
+	$('#createEditPage').delegate('.padEntryTitleChevron', 'click', function(e) {
+		var name = e.target.parentNode.querySelector('.padEntryTitle').innerHTML;
+		var files = null;
+		for(var i = 0; i < editing.contents.length; i++) {
+			if(editing.contents[i].program === name) {
+				files = editing.contents[i].files;
+			}
+		}
+
+		var callback = function(alt) {
+			var clone = JSON.parse(JSON.stringify({files: files})).files;
+
+			for(var i = 0; i < clone.length; i++) {
+				switchFileToAlternative(editing, clone[i], name, alt);
+			}
+
+			// Draw the result
+			redrawEditingPad();
+			closeOverlay();
+			showPassive('Switched programs!');
+		};
+
+		var alts = getAlternativeProgramsList(files, config);
+		console.log(alts);
+		var programs = [];
+		for(var i =0; i < alts.length; i++) {
+			if(alts[i] !== name) {
+				programs.push(getProgramInfo(alts[i], config));
+			}
+		}
+
+		// render the page
+		var node = renderOverlay("Change the program for these files...", programs, callback);
+		showOverlay(node);
+	});
+
 	// START SEQUENCE
 	// Get the configuration
 	getJSON("config.json", function(result) {
@@ -153,6 +262,10 @@ window.onload = function() {
 		})
 	});
 };
+
+var redrawEditingPad = function() {
+	renderPadContents(document.querySelector('.editBody'), editing);
+}
 
 var handleURLBar = function() {
 	var bar = document.querySelector('#editURL');
@@ -172,11 +285,6 @@ var handleURLBar = function() {
 			if(isValidURL("http://" + urls[i])) {
 				guessed = true;
 				valid.push("http://" + urls[i]);
-			} else {
-				if(isValidURL("http://www." + urls[i])) {
-					guessed = true;
-					valid.push("http://www." + urls[i]);
-				}
 			}
 		}
 	}
@@ -188,9 +296,30 @@ var handleURLBar = function() {
 		insertIntoPad(editing, delta);
 		showPassive('Website added to pad!');
 		bar.value = "";
-		renderPadContents(document.querySelector('.editBody'), editing);
+		redrawEditingPad();
 	}
 };
+
+var handleStandalone = function() {
+	// handle the results
+	var callback = function(name) {
+		var dups = insertIntoPad(editing, [{program: name, files: []}]);
+		closeOverlay();
+		if(dups.length == 0) {
+			showPassive('Added ' + name + ' to pad!');
+			redrawEditingPad();
+		} else {
+			showPassive('You already added ' + name + '!');
+		}
+	};
+
+	// Draw the overlay
+	var programs = getStandalonePrograms(config);
+	var node = renderOverlay("Add a Standalone Program", programs, callback);
+
+	// Show the overlay
+	showOverlay(node);
+}
 
 var pick = function(callback) {
 	$.getJSON(req_url + 'pick').done(callback);
@@ -255,6 +384,23 @@ var switchMainScreen = function(screen, args) {
 		renderLaunchPage();
 	}
 };
+
+var renderOverlay = function(title, programs, callback) {
+	var standalone = document.createElement("DIV");
+	standalone.classList.add('noselect');
+	standalone.innerHTML = "<div class='overlayHeader'>" + title + "</div><div class='overlayProgramList'></div>"; 
+	var body = standalone.querySelector('.overlayProgramList');
+	for(var i = 0; i < programs.length; i++) {
+		var child = document.createElement('IMG');
+		child.src = programs[i].icon_path;
+		child.setAttribute('title', programs[i].display_name);
+		child.addEventListener('click', function(e) {
+			callback(e.target.getAttribute('title'));
+		});
+		body.appendChild(child);
+	}
+	return standalone;
+}
 
 var renderLaunchPage = function() {
 	var screen = document.querySelector("#launchPage");
@@ -378,7 +524,7 @@ var renderPadContents = function(node, arg) {
 			var entryHeader = document.createElement('DIV');
 			entryHeader.setAttribute('class', 'padEntryHeader');
 			entryHeader.classList.add('noselect');
-			entryHeader.innerHTML = '<div class="padEntryHeaderLeft"><img src="icons/google_chrome.png" class="padEntryLogo" /><div class="padEntryTitle">Chrome</div><div class="padEntryIcon padEntryTitleChevron noselect" title="choose a different program for these files"></div></div><div class="padEntryIcon padEntryRight noselect" title="remove this program and all its files"></div>';
+			entryHeader.innerHTML = '<div class="padEntryHeaderLeft"><img src="icons/google_chrome.png" class="padEntryLogo" /><div class="padEntryTitle">Chrome</div><div class="padEntryIcon padEntryTitleChevron noselect" title="choose a different program for these files"></div></div><div class="padEntryIcon padEntryDelete noselect" title="remove this program and all its files"></div>';
 			// Give it the correct name and logo
 			var program = getProgramInfo(contents[i].program,config);
 			entryHeader.querySelector('.padEntryTitle').innerHTML = program.display_name;
@@ -387,7 +533,7 @@ var renderPadContents = function(node, arg) {
 			// Hide the title chevron if there are no alternative programs
 			// Or, if the program is standalone.
 			var alternatives = getAlternativeProgramsList(contents[i].files, config);
-			if(program.standalone || alternatives.length === 0) {
+			if(program.standalone || alternatives.length <= 1) {
 				entryHeader.querySelector('.padEntryTitleChevron').classList.add('hidden');
 			}
 
@@ -396,7 +542,7 @@ var renderPadContents = function(node, arg) {
 			for(var j = 0; j < contents[i].files.length; j++) {
 				var file = document.createElement('DIV');
 				file.setAttribute('class', 'padEntryFile');
-				file.innerHTML = '<div class="padEntryFileName">' + contents[i].files[j] + '</div><div class="padEntryFileButtons"><div class="padEntryFileIcon padEntryFileChevron noselect" title="choose a different program for this file"></div><div class="padEntryFileIcon noselect" title="remove this file"></div></div>';
+				file.innerHTML = '<div class="padEntryFileName">' + contents[i].files[j] + '</div><div class="padEntryFileButtons"><div class="padEntryFileIcon padEntryFileChevron noselect" title="choose a different program for this file"></div><div class="padEntryFileIcon padFileEntryDelete noselect" title="remove this file"></div></div>';
 				entryBody.appendChild(file);
 
 				// Hide the chevron if needed
@@ -451,18 +597,24 @@ var closeOverlay = function () {
 	}
 };
 
+var passiveTimeout = null;
 var showPassive = function(message) {
 	var passive = document.querySelector('.passive');
 	passive.innerHTML = message;
+
+	var timeoutFun = function() {
+		var passive = document.querySelector('.passive');
+		passive.classList.remove('passiveShow');
+		passive.classList.add('passiveHide');
+	};
 
 	if(!passive.classList.contains('passiveShow')) {
 		passive.classList.remove('passiveHide');
 		passive.classList.add('passiveShow');
 
-		setTimeout(function() {
-			var passive = document.querySelector('.passive');
-			passive.classList.remove('passiveShow');
-			passive.classList.add('passiveHide');
-		}, 2500)
+		passiveTimeout = setTimeout(timeoutFun, 2500);
+	} else {
+		clearTimeout(passiveTimeout);
+		passiveTimeout = setTimeout(timeoutFun, 2500);
 	}
 };
