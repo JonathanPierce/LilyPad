@@ -8,8 +8,9 @@ var editing = null;
 window.onload = function() {
 	// Show the help page
 	$("#headerHelpButton").click(function() {
-		var help = document.createElement("DIV");
-		help.innerHTML = "Don't forget about me! :(";
+		var help = document.createElement("IFRAME");
+		help.classList.add('helpFrame');
+		help.src = "help.html";
 		showOverlay(help);
 	});
 
@@ -143,7 +144,7 @@ window.onload = function() {
 	document.querySelector("#editFiles").addEventListener('click', function() {
 		pick(function(files) {
 			files = files.paths;
-			if(files.length > 0) {
+			if(files.length > 0 && files[0] !== "") {
 				// Match to defaults
 				var delta = getDefaultPrograms(files, config);
 

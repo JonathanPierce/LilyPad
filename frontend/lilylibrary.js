@@ -183,7 +183,7 @@ var getDefaultPrograms = function(paths, config) {
 		var fileType = getFileType(path);
 		defaultProgram = getDefaultProgram(fileType, config);
 		if(defaultProgram === null) {
-			continue; // log error?
+			defaultProgram = "Gedit";
 		}
 
 		if(!(defaultProgram in programToPaths)) {
