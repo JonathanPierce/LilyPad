@@ -191,7 +191,8 @@
 		{"type": "pptx", "program" : "LibreOffice Impress"},
 		{"type": "odp", "program" : "LibreOffice Impress"},
 		{"type": "url", "program" : "Google Chrome"},
-		{"type": "vcd", "program" : "GTKWave"}
+		{"type": "vcd", "program" : "GTKWave"},
+		{"type": "xcf", "program" : "Gimp"}
 	],
 	"colors" : ["red", "green", "blue", "orange", "purple"]
 }
