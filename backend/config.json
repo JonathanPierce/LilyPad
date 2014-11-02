@@ -85,6 +85,26 @@
 			"system_name": "gnome-terminal --working-directory ~"
 		},
 		{
+			"display_name" : "Thunderbird",
+			"icon_path" : "icons/thunderbird.png",
+			"types" : [],
+			"standalone" : true,
+			"system_name": "thunderbird"
+		},
+        {
+			"display_name" : "Minesweeper",
+			"icon_path" : "icons/minesweeper.png",
+			"types" : [], "standalone" : true,
+			"system_name": "gnome-mines"
+		},
+        {
+			"display_name" : "Sudoku",
+			"icon_path" : "icons/sudoku.png",
+			"types" : [],
+			"standalone" : true,
+			"system_name": "gnome-sudoku"
+        },
+		{
 			"display_name" : "Kile",
 			"icon_path" : "icons/kile.png",
 			"types" : ["tex"],
